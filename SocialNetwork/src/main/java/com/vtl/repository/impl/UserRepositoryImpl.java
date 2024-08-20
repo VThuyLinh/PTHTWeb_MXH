@@ -6,6 +6,7 @@ package com.vtl.repository.impl;
 
 import com.vtl.pojo.User;
 import com.vtl.socialnetwork.HibernateUtils;
+import java.util.List;
 import javax.persistence.Query;
 import org.hibernate.Session;
 
@@ -23,4 +24,15 @@ public class UserRepositoryImpl {
             return (User) q.getSingleResult();
         }
     }
+    
+    public List<User> getAllUser()
+    {
+        try(Session s= HibernateUtils.getFactory().openSession())
+        {
+            Query q= s.createNamedQuery("User.findAll");
+            
+            return q.getResultList();
+        }
+    }
+    
 }

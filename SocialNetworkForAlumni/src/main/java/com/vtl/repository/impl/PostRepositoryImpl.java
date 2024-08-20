@@ -92,18 +92,28 @@ public class PostRepositoryImpl implements PostRepository {
     public void addOrUpdatePost(Post p) {
         Session s = this.factory.getObject().getCurrentSession();
         if (p.getId() != null) {
-            s.update(s);
+            s.update(p);
         } else {
-            s.save(s);
+            s.save(p);
         }
 
     }
 
+   
+    
     @Override
-    public Post getPostByTopic(int majorId) {
+    public Post getPostById(int id) {
         Session s = this.factory.getObject().getCurrentSession();
-        return s.get(Post.class, majorId);
 
+        return s.get(Post.class, id);
+
+    }
+    
+    @Override
+    public void deletePost(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Post p = this.getPostById(id);
+        s.delete(p);
     }
 
 }

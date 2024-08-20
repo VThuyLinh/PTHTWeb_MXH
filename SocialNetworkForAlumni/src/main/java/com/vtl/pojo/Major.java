@@ -5,7 +5,6 @@
 package com.vtl.pojo;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -19,6 +18,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -35,9 +36,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Major.findByName", query = "SELECT m FROM Major m WHERE m.name = :name")})
 public class Major implements Serializable {
 
-    @OneToMany(mappedBy = "major")
-    private Set<User> userSet;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,13 +43,17 @@ public class Major implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "name")
     private String name;
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Department departmentId;
     @OneToMany(mappedBy = "majorId")
-    private Collection<Post> postCollection;
+    private Set<Post> postSet;
+    @OneToMany(mappedBy = "major")
+    private Set<User> userSet;
 
     public Major() {
     }
@@ -90,12 +92,21 @@ public class Major implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Post> getPostCollection() {
-        return postCollection;
+    public Set<Post> getPostSet() {
+        return postSet;
     }
 
-    public void setPostCollection(Collection<Post> postCollection) {
-        this.postCollection = postCollection;
+    public void setPostSet(Set<Post> postSet) {
+        this.postSet = postSet;
+    }
+
+    @XmlTransient
+    public Set<User> getUserSet() {
+        return userSet;
+    }
+
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
     }
 
     @Override
@@ -121,15 +132,6 @@ public class Major implements Serializable {
     @Override
     public String toString() {
         return "com.vtl.pojo.Major[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public Set<User> getUserSet() {
-        return userSet;
-    }
-
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
     }
     
 }

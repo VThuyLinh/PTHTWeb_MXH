@@ -15,5 +15,7 @@ import java.util.Map;
 public interface PostRepository {
      public List<Post> getPost(Map<String, String> params);
     public void addOrUpdatePost(Post p);
-    public Post getPostByTopic(int majorId);
+    public Post getPostById(int id);
+    public void deletePost(int id);
+    
 }

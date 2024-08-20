@@ -5,8 +5,8 @@
 package com.vtl.pojo;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -65,7 +65,7 @@ public class Post implements Serializable {
     @Column(name = "active")
     private boolean active;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "postId")
-    private Collection<Image> imageCollection;
+    private Set<Image> imageSet;
     @JoinColumn(name = "major_id", referencedColumnName = "id")
     @ManyToOne
     private Major majorId;
@@ -73,7 +73,7 @@ public class Post implements Serializable {
     @ManyToOne(optional = false)
     private User userPostId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "postId")
-    private Collection<Comment> commentCollection;
+    private Set<Comment> commentSet;
 
     public Post() {
     }
@@ -140,12 +140,12 @@ public class Post implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Image> getImageCollection() {
-        return imageCollection;
+    public Set<Image> getImageSet() {
+        return imageSet;
     }
 
-    public void setImageCollection(Collection<Image> imageCollection) {
-        this.imageCollection = imageCollection;
+    public void setImageSet(Set<Image> imageSet) {
+        this.imageSet = imageSet;
     }
 
     public Major getMajorId() {
@@ -165,12 +165,12 @@ public class Post implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Comment> getCommentCollection() {
-        return commentCollection;
+    public Set<Comment> getCommentSet() {
+        return commentSet;
     }
 
-    public void setCommentCollection(Collection<Comment> commentCollection) {
-        this.commentCollection = commentCollection;
+    public void setCommentSet(Set<Comment> commentSet) {
+        this.commentSet = commentSet;
     }
 
     @Override

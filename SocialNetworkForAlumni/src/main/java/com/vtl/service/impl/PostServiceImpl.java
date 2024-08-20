@@ -32,8 +32,14 @@ public class PostServiceImpl implements PostService{
     }
 
     @Override
-    public Post getPostByTopic(int majorId) {
-       return pr.getPostByTopic(majorId);
+    public Post getPostById(int id) {
+        return pr.getPostById(id);
     }
+
+    @Override
+    public void deletePost(int id) {
+        this.pr.deletePost(id);
+    }
+
     
 }

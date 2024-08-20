@@ -4,6 +4,7 @@
  */
 package com.vtl.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -52,11 +53,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "User.findByDegree", query = "SELECT u FROM User u WHERE u.degree = :degree"),
     @NamedQuery(name = "User.findByCreatedDate", query = "SELECT u FROM User u WHERE u.createdDate = :createdDate")})
 public class User implements Serializable {
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userIdBeInvited")
-    private Set<Notification> notificationSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userIdInvite")
-    private Set<Notification> notificationSet1;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -123,11 +119,25 @@ public class User implements Serializable {
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userIdInvite")
+    @JsonIgnore
+    private Set<Notification> notificationSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userPostId")
+    @JsonIgnore
+    private Set<Post> postSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @JsonIgnore
+    private Set<Comment> commentSet;
+    @OneToMany(mappedBy = "userId")
+    @JsonIgnore
+    private Set<GroupUser> groupUserSet;
     @JoinColumn(name = "department", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Department department;
     @JoinColumn(name = "major", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Major major;
 
     public User() {
@@ -269,6 +279,42 @@ public class User implements Serializable {
         this.createdDate = createdDate;
     }
 
+    @XmlTransient
+    public Set<Notification> getNotificationSet() {
+        return notificationSet;
+    }
+
+    public void setNotificationSet(Set<Notification> notificationSet) {
+        this.notificationSet = notificationSet;
+    }
+
+    @XmlTransient
+    public Set<Post> getPostSet() {
+        return postSet;
+    }
+
+    public void setPostSet(Set<Post> postSet) {
+        this.postSet = postSet;
+    }
+
+    @XmlTransient
+    public Set<Comment> getCommentSet() {
+        return commentSet;
+    }
+
+    public void setCommentSet(Set<Comment> commentSet) {
+        this.commentSet = commentSet;
+    }
+
+    @XmlTransient
+    public Set<GroupUser> getGroupUserSet() {
+        return groupUserSet;
+    }
+
+    public void setGroupUserSet(Set<GroupUser> groupUserSet) {
+        this.groupUserSet = groupUserSet;
+    }
+
     public Department getDepartment() {
         return department;
     }
@@ -310,22 +356,6 @@ public class User implements Serializable {
         return "com.vtl.pojo.User[ id=" + id + " ]";
     }
 
-    @XmlTransient
-    public Set<Notification> getNotificationSet() {
-        return notificationSet;
-    }
-
-    public void setNotificationSet(Set<Notification> notificationSet) {
-        this.notificationSet = notificationSet;
-    }
-
-    @XmlTransient
-    public Set<Notification> getNotificationSet1() {
-        return notificationSet1;
-    }
-
-    public void setNotificationSet1(Set<Notification> notificationSet1) {
-        this.notificationSet1 = notificationSet1;
-    }
+    
     
 }

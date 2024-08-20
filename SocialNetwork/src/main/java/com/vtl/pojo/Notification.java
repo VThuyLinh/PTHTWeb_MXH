@@ -32,10 +32,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Notification.findAll", query = "SELECT n FROM Notification n"),
     @NamedQuery(name = "Notification.findById", query = "SELECT n FROM Notification n WHERE n.id = :id"),
     @NamedQuery(name = "Notification.findByContent", query = "SELECT n FROM Notification n WHERE n.content = :content"),
-    @NamedQuery(name = "Notification.findByAdress", query = "SELECT n FROM Notification n WHERE n.adress = :adress"),
+    @NamedQuery(name = "Notification.findByAddress", query = "SELECT n FROM Notification n WHERE n.address = :address"),
     @NamedQuery(name = "Notification.findByTime", query = "SELECT n FROM Notification n WHERE n.time = :time"),
     @NamedQuery(name = "Notification.findByActive", query = "SELECT n FROM Notification n WHERE n.active = :active"),
-    @NamedQuery(name = "Notification.findByCreatedDate", query = "SELECT n FROM Notification n WHERE n.createdDate = :createdDate")})
+    @NamedQuery(name = "Notification.findByCreatedDate", query = "SELECT n FROM Notification n WHERE n.createdDate = :createdDate"),
+    @NamedQuery(name = "Notification.findByCover", query = "SELECT n FROM Notification n WHERE n.cover = :cover")})
 public class Notification implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,8 +49,8 @@ public class Notification implements Serializable {
     @Column(name = "content")
     private String content;
     @Basic(optional = false)
-    @Column(name = "adress")
-    private String adress;
+    @Column(name = "address")
+    private String address;
     @Basic(optional = false)
     @Column(name = "time")
     @Temporal(TemporalType.TIMESTAMP)
@@ -59,9 +60,8 @@ public class Notification implements Serializable {
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
-    @JoinColumn(name = "user_id_be_invited", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private User userIdBeInvited;
+    @Column(name = "cover")
+    private String cover;
     @JoinColumn(name = "user_id_invite", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userIdInvite;
@@ -73,10 +73,10 @@ public class Notification implements Serializable {
         this.id = id;
     }
 
-    public Notification(Integer id, String content, String adress, Date time) {
+    public Notification(Integer id, String content, String address, Date time) {
         this.id = id;
         this.content = content;
-        this.adress = adress;
+        this.address = address;
         this.time = time;
     }
 
@@ -96,12 +96,12 @@ public class Notification implements Serializable {
         this.content = content;
     }
 
-    public String getAdress() {
-        return adress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdress(String adress) {
-        this.adress = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Date getTime() {
@@ -128,12 +128,12 @@ public class Notification implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public User getUserIdBeInvited() {
-        return userIdBeInvited;
+    public String getCover() {
+        return cover;
     }
 
-    public void setUserIdBeInvited(User userIdBeInvited) {
-        this.userIdBeInvited = userIdBeInvited;
+    public void setCover(String cover) {
+        this.cover = cover;
     }
 
     public User getUserIdInvite() {

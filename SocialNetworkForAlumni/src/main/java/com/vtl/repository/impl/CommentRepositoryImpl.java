@@ -52,4 +52,23 @@ public class CommentRepositoryImpl implements CommentRepository {
         
         
     }
+     
+     @Override
+    public void deleteComment(int id) {
+        Session s = this.factory.getObject().getCurrentSession();
+        Comment c = this.getCommentById(id);
+        s.delete(c);
+    }
+    
+    
+    @Override
+    public Comment getCommentById(int id)
+    {
+        Session s= this.factory.getObject().getCurrentSession();
+        
+            Query q= s.createNamedQuery("Comment.findById");
+            q.setParameter("id", id);
+            return (Comment) q.getSingleResult();
+        
+    }
 }

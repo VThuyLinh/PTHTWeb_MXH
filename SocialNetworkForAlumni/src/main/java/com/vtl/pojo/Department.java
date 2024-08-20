@@ -5,7 +5,6 @@
 package com.vtl.pojo;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -18,6 +17,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -34,9 +35,6 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Department.findByName", query = "SELECT d FROM Department d WHERE d.name = :name")})
 public class Department implements Serializable {
 
-    @OneToMany(mappedBy = "department")
-    private Set<User> userSet;
-
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,10 +42,14 @@ public class Department implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "departmentId")
-    private Collection<Major> majorCollection;
+    private Set<Major> majorSet;
+    @OneToMany(mappedBy = "department")
+    private Set<User> userSet;
 
     public Department() {
     }
@@ -78,12 +80,21 @@ public class Department implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Major> getMajorCollection() {
-        return majorCollection;
+    public Set<Major> getMajorSet() {
+        return majorSet;
     }
 
-    public void setMajorCollection(Collection<Major> majorCollection) {
-        this.majorCollection = majorCollection;
+    public void setMajorSet(Set<Major> majorSet) {
+        this.majorSet = majorSet;
+    }
+
+    @XmlTransient
+    public Set<User> getUserSet() {
+        return userSet;
+    }
+
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
     }
 
     @Override
@@ -109,15 +120,6 @@ public class Department implements Serializable {
     @Override
     public String toString() {
         return "com.vtl.pojo.Department[ id=" + id + " ]";
-    }
-
-    @XmlTransient
-    public Set<User> getUserSet() {
-        return userSet;
-    }
-
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
     }
     
 }

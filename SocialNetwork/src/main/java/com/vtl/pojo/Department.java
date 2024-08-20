@@ -5,7 +5,7 @@
 package com.vtl.pojo;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -43,7 +43,9 @@ public class Department implements Serializable {
     @Column(name = "name")
     private String name;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "departmentId")
-    private Collection<Major> majorCollection;
+    private Set<Major> majorSet;
+    @OneToMany(mappedBy = "department")
+    private Set<User> userSet;
 
     public Department() {
     }
@@ -74,12 +76,21 @@ public class Department implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Major> getMajorCollection() {
-        return majorCollection;
+    public Set<Major> getMajorSet() {
+        return majorSet;
     }
 
-    public void setMajorCollection(Collection<Major> majorCollection) {
-        this.majorCollection = majorCollection;
+    public void setMajorSet(Set<Major> majorSet) {
+        this.majorSet = majorSet;
+    }
+
+    @XmlTransient
+    public Set<User> getUserSet() {
+        return userSet;
+    }
+
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
     }
 
     @Override

@@ -5,6 +5,7 @@
 package com.vtl.repository.impl;
 
 import com.vtl.pojo.Notification;
+import com.vtl.pojo.Post;
 import com.vtl.repository.NotificationRepository;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -28,46 +29,53 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public class NotificationRepositoryImpl implements NotificationRepository {
-    
+
     @Autowired
     private LocalSessionFactoryBean factory;
-    
-    
-    
-    
-    
-    
+
+    private static final int PAGE_SIZE = 2;
+
     @Override
-    public List<Notification> getNotification( Map<String, String> params){
-        Session s= this.factory.getObject().getCurrentSession();
-        CriteriaBuilder b = s.getCriteriaBuilder();
-        CriteriaQuery<Notification> q = b.createQuery(Notification.class);
-        Root root = q.from(Notification.class);
-        
-        if (params != null) {
-            List<Predicate> predicates = new ArrayList<>();
-            String time = params.get("time");
-            if (time != null && !time.isEmpty()) {
-                Predicate p1 = b.equal(root.get("time"), Date.valueOf(time));
-                predicates.add(p1);
+    public List<Notification> getNotification(Map<String, String> params) {
+
+        Session s = this.factory.getObject().getCurrentSession();
+         CriteriaBuilder b = s.getCriteriaBuilder();
+            CriteriaQuery<Notification> q = b.createQuery(Notification.class);
+            Root root = q.from(Notification.class);
+            q.select(root);
+            if (params != null) {
+                List<Predicate> predicates = new ArrayList<>();
+                String kw = params.get("q");
+                if (kw != null && !kw.isEmpty()) {
+                    Predicate p1 = b.like(root.get("content"), String.format("%%%s%%", kw));
+                    predicates.add(p1);
+                }
+
+                
+
+                q.where(predicates.toArray(Predicate[]::new));
             }
 
-            String cdate = params.get("cdate");
-            if (cdate != null && !cdate.isEmpty()) {
-                Predicate p2 = b.equal(root.get("createdDate"), Date.valueOf(cdate));
-                predicates.add(p2);
-            }
+            Query query = s.createQuery(q);
 
-            String ct = params.get("content");
-            if (ct != null && !ct.isEmpty()) {
-                Predicate p4 = b.like(root.get("content"), String.format("%%%s%%", ct));
-                predicates.add(p4);
+            if (params != null) {
+                String page = params.get("page");
+                if (page != null && !page.isEmpty()) {
+                    int p = Integer.parseInt(page);
+                    int start = (p - 1) * PAGE_SIZE;
+                    
+                    query.setFirstResult(start);
+                    query.setMaxResults(PAGE_SIZE);
+                }
             }
             
-            q.where(predicates.toArray(Predicate[]::new));
-        }
-       
-            Query query = s.createQuery(q);
             return query.getResultList();
-    }
+        }
 }
+
+
+
+
+    
+   
+           

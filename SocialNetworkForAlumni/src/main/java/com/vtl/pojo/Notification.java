@@ -34,11 +34,12 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "Notification.findAll", query = "SELECT n FROM Notification n"),
     @NamedQuery(name = "Notification.findById", query = "SELECT n FROM Notification n WHERE n.id = :id"),
     @NamedQuery(name = "Notification.findByContent", query = "SELECT n FROM Notification n WHERE n.content = :content"),
-    @NamedQuery(name = "Notification.findByAdress", query = "SELECT n FROM Notification n WHERE n.adress = :adress"),
+    @NamedQuery(name = "Notification.findByAddress", query = "SELECT n FROM Notification n WHERE n.address = :address"),
     @NamedQuery(name = "Notification.findByTime", query = "SELECT n FROM Notification n WHERE n.time = :time"),
     @NamedQuery(name = "Notification.findByActive", query = "SELECT n FROM Notification n WHERE n.active = :active"),
     @NamedQuery(name = "Notification.findByCreatedDate", query = "SELECT n FROM Notification n WHERE n.createdDate = :createdDate"),
-    @NamedQuery(name = "Notification.findByCover", query = "SELECT n FROM Notification n WHERE n.cover = :cover")})
+    @NamedQuery(name = "Notification.findByCover", query = "SELECT n FROM Notification n WHERE n.cover = :cover"),
+    @NamedQuery(name = "Notification.findByInviteGroup", query = "SELECT n FROM Notification n WHERE n.inviteGroup = :inviteGroup")})
 public class Notification implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -55,7 +56,7 @@ public class Notification implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 300)
-    @Column(name = "adress")
+    @Column(name = "address")
     private String address;
     @Basic(optional = false)
     @NotNull
@@ -70,12 +71,11 @@ public class Notification implements Serializable {
     @Size(max = 500)
     @Column(name = "cover")
     private String cover;
-    @JoinColumn(name = "user_id_be_invited", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private User user;
+    @Column(name = "invite_group")
+    private Integer inviteGroup;
     @JoinColumn(name = "user_id_invite", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User user1;
+    private User userIdInvite;
 
     public Notification() {
     }
@@ -107,12 +107,12 @@ public class Notification implements Serializable {
         this.content = content;
     }
 
-    public String getAdress() {
+    public String getAddress() {
         return address;
     }
 
-    public void setAdress(String adress) {
-        this.address = adress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Date getTime() {
@@ -147,20 +147,20 @@ public class Notification implements Serializable {
         this.cover = cover;
     }
 
-    public User getUser() {
-        return user;
+    public Integer getInviteGroup() {
+        return inviteGroup;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setInviteGroup(Integer inviteGroup) {
+        this.inviteGroup = inviteGroup;
     }
 
-    public User getUser1() {
-        return user1;
+    public User getUserIdInvite() {
+        return userIdInvite;
     }
 
-    public void setUser1(User user1) {
-        this.user1 = user1;
+    public void setUserIdInvite(User userIdInvite) {
+        this.userIdInvite = userIdInvite;
     }
 
     @Override

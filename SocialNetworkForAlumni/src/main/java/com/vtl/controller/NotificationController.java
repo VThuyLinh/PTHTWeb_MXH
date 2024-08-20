@@ -4,6 +4,7 @@
  */
 package com.vtl.controller;
 
+import com.vtl.service.MajorService;
 import com.vtl.service.NotificationService;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,14 @@ public class NotificationController {
     @Autowired
     private NotificationService noService;
 
+    @Autowired
+    private MajorService ms;
+    
     @RequestMapping("/Notification")
     public String getNo(Model model, @RequestParam Map<String, String> params) {
 
         model.addAttribute("notification", this.noService.getNotification(params));
-
+         model.addAttribute("major", this.ms.getMajor());
         return "notification";
     }
 }

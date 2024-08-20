@@ -4,9 +4,10 @@
  */
 package com.vtl.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,6 +23,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -49,31 +52,42 @@ public class Post implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 400)
     @Column(name = "topic")
     private String topic;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1000)
     @Column(name = "content")
     private String content;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "like_haha_heart")
-    private boolean likeHahaHeart;
+    private int likeHahaHeart;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
     @Basic(optional = false)
+    @NotNull
     @Column(name = "active")
     private boolean active;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "postId")
-    private Collection<Image> imageCollection;
+    @JsonIgnore
+    private Set<Image> imageSet;
     @JoinColumn(name = "major_id", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Major majorId;
     @JoinColumn(name = "user_post_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
+    @JsonIgnore
     private User userPostId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "postId")
-    private Collection<Comment> commentCollection;
+    @JsonIgnore
+    private Set<Comment> commentSet;
 
     public Post() {
     }
@@ -82,7 +96,7 @@ public class Post implements Serializable {
         this.id = id;
     }
 
-    public Post(Integer id, String topic, String content, boolean likeHahaHeart, Date createdDate, boolean active) {
+    public Post(Integer id, String topic, String content, int likeHahaHeart, Date createdDate, boolean active) {
         this.id = id;
         this.topic = topic;
         this.content = content;
@@ -115,11 +129,11 @@ public class Post implements Serializable {
         this.content = content;
     }
 
-    public boolean getLikeHahaHeart() {
+    public int getLikeHahaHeart() {
         return likeHahaHeart;
     }
 
-    public void setLikeHahaHeart(boolean likeHahaHeart) {
+    public void setLikeHahaHeart(int likeHahaHeart) {
         this.likeHahaHeart = likeHahaHeart;
     }
 
@@ -140,12 +154,12 @@ public class Post implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Image> getImageCollection() {
-        return imageCollection;
+    public Set<Image> getImageSet() {
+        return imageSet;
     }
 
-    public void setImageCollection(Collection<Image> imageCollection) {
-        this.imageCollection = imageCollection;
+    public void setImageSet(Set<Image> imageSet) {
+        this.imageSet = imageSet;
     }
 
     public Major getMajorId() {
@@ -165,12 +179,12 @@ public class Post implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Comment> getCommentCollection() {
-        return commentCollection;
+    public Set<Comment> getCommentSet() {
+        return commentSet;
     }
 
-    public void setCommentCollection(Collection<Comment> commentCollection) {
-        this.commentCollection = commentCollection;
+    public void setCommentSet(Set<Comment> commentSet) {
+        this.commentSet = commentSet;
     }
 
     @Override

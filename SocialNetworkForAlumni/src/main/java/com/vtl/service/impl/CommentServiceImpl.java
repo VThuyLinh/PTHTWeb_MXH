@@ -27,4 +27,9 @@ public class CommentServiceImpl implements CommentService {
         return cs.getComment(params);
 
     }
+
+    @Override
+    public void deleteComment(int id) {
+        this.cs.deleteComment(id);
+    }
 }

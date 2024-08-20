@@ -22,12 +22,14 @@ import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author Thuy Linh
  */
 @Repository
+@Transactional
 public class StatsRepositoryImpl implements StatsRepository {
 
     
@@ -76,7 +78,8 @@ public class StatsRepositoryImpl implements StatsRepository {
 
             q.where(b.equal(b.function("YEAR", Integer.class, rP.get("createdDate")), year));
 
-            q.multiselect(rP.get("id"), rP.get("topic"), rP.get("likeHahaHeart"), rP.get("createdDate"));
+            q.multiselect(b.count(rP.get("id")), rP.get("createdDate"));
+            q.groupBy(rP.get("createdDate"));
             Query query = s.createQuery(q);
             return query.getResultList();
         
@@ -85,18 +88,21 @@ public class StatsRepositoryImpl implements StatsRepository {
     @Override
     public List<Object[]> statsRevenuePostByMonth(int month) {
         Session s= this.factory.getObject().getCurrentSession();
+            
             if (month < 0 || month > 12) {
                 System.out.println("Nh?p dúng tháng b?n nhé");
             }
+            
             CriteriaBuilder b = s.getCriteriaBuilder();
             CriteriaQuery<Object[]> q = b.createQuery(Object[].class);
 
             Root rP = q.from(Post.class);
 
             q.where(b.equal(b.function("MONTH", Integer.class, rP.get("createdDate")), month));
-
-            q.multiselect(rP.get("id"), rP.get("topic"), rP.get("likeHahaHeart"), rP.get("createdDate"));
-
+                
+            
+            q.multiselect(b.count(rP.get("id")), rP.get("createdDate"));
+            q.groupBy(rP.get("createdDate"));
             Query query = s.createQuery(q);
             return query.getResultList();
         }

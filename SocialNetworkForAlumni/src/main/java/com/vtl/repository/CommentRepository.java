@@ -14,4 +14,6 @@ import java.util.Map;
  */
 public interface CommentRepository {
     public List<Comment> getComment(Map<String, String> params);
+    public void deleteComment(int id);
+    public Comment getCommentById(int id);
 }

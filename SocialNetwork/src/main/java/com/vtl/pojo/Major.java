@@ -5,7 +5,7 @@
 package com.vtl.pojo;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,7 +47,9 @@ public class Major implements Serializable {
     @ManyToOne(optional = false)
     private Department departmentId;
     @OneToMany(mappedBy = "majorId")
-    private Collection<Post> postCollection;
+    private Set<Post> postSet;
+    @OneToMany(mappedBy = "major")
+    private Set<User> userSet;
 
     public Major() {
     }
@@ -86,12 +88,21 @@ public class Major implements Serializable {
     }
 
     @XmlTransient
-    public Collection<Post> getPostCollection() {
-        return postCollection;
+    public Set<Post> getPostSet() {
+        return postSet;
     }
 
-    public void setPostCollection(Collection<Post> postCollection) {
-        this.postCollection = postCollection;
+    public void setPostSet(Set<Post> postSet) {
+        this.postSet = postSet;
+    }
+
+    @XmlTransient
+    public Set<User> getUserSet() {
+        return userSet;
+    }
+
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
     }
 
     @Override
