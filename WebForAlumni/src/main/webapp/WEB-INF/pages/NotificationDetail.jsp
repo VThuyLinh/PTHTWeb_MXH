@@ -13,27 +13,27 @@
 
 
     <div class="mb-3 mt-3">
-        <label for="file" class="form-label">Ảnh thông báo:</label>
+        <label for="file" class="form-label">Ảnh</label>
         <f:input path="cover" type="file" accept=".jpg,.png" class="form-control" id="cover" name="cover" />
         <c:if test="${noDetail.cover != null}">
             <img class="mt-1" src="${noDetail.cover}" alt="${noDetail.cover}" width="120" />
         </c:if>
     </div>  
     <div class="mb-3 mt-3">
-        <label for="content" class="form-label">Noi dung thong bao</label>
+        <label for="content" class="form-label">Nội dung thông báo</label>
         <input type="text" class="form-control" id="content" value="${noDetail.content}" name="content">
     </div>
     <div class="mb-3 mt-3">
-        <label for="address" class="form-label">Dia diem</label>
+        <label for="address" class="form-label">Địa điểm</label>
         <input type="text" class="form-control" id="address" value="${noDetail.address}" name="address">
     </div>
     <div class="mb-3 mt-3">
-        <label for="time" class="form-label">Thoi gian</label>
+        <label for="time" class="form-label"> Thời gian</label>
         <input type="text" class="form-control" id="time" value="${noDetail.time}" name="time">
     </div>
 
     <div class="mb-3 mt-3">
-        <label for="time" class="form-label">Nguoi moi</label>
+        <label for="time" class="form-label">Người mời</label>
         <c:forEach items="${user}" var="u">
             <c:if test="${u.id==noDetail.userIdInvite.id}">
                 <input type="text" class="form-control" id="time" value="${u.firstname} ${u.lastname} (${u.role})" name="time">
@@ -49,7 +49,7 @@
 
 
 
-            <option value="${noDetail.id}" selected>Cập nhật sản phẩm</option>
+            <option value="${noDetail.id}" selected>Cập nhật bài đăng</option>
 
     </div>
 

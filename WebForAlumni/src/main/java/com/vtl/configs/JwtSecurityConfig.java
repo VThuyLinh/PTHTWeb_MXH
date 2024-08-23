@@ -30,11 +30,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackages = {
     "com.dht.controller",
     "com.dht.repository",
-    "com.dht.service", 
+    "com.dht.service",
     "com.dht.component"})
 @Order(1)
 public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
-    
+
     @Bean
     public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() throws Exception {
         JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter = new JwtAuthenticationTokenFilter();
@@ -65,11 +65,9 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/Post/**").permitAll();
         http.authorizeRequests().antMatchers("/api/Post/").permitAll();
         http.authorizeRequests().antMatchers("/api/Comment/**").permitAll();
-       http.authorizeRequests().antMatchers("/api/Notification/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/Notification/**").permitAll();
         http.authorizeRequests().antMatchers("/api/Users/**").permitAll();
-          http.authorizeRequests().antMatchers("/api/Topic/**").permitAll();
-
-         
+        http.authorizeRequests().antMatchers("/api/Topic/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/**/Comment/").permitAll();
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
@@ -80,8 +78,3 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler());
     }
 }
-
-
-
-
-

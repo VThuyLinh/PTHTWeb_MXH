@@ -23,10 +23,12 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -60,8 +62,6 @@ public class Post implements Serializable {
     @NotNull
     @Column(name = "like_haha_heart")
     private int likeHahaHeart;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
@@ -81,13 +81,16 @@ public class Post implements Serializable {
     @JsonIgnore
     private Topic topicId;
     @JoinColumn(name = "user_post_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JsonIgnore
     private User userPostId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "postId")
     @JsonIgnore
     private Set<Comment> commentSet;
 
+    @Transient
+    private MultipartFile file;
+    
     public Post() {
     }
 
@@ -95,11 +98,10 @@ public class Post implements Serializable {
         this.id = id;
     }
 
-    public Post(Integer id, String content, int likeHahaHeart, Date createdDate, boolean active) {
+    public Post(Integer id, String content, int likeHahaHeart, boolean active) {
         this.id = id;
         this.content = content;
         this.likeHahaHeart = likeHahaHeart;
-        this.createdDate = createdDate;
         this.active = active;
     }
 
@@ -207,6 +209,20 @@ public class Post implements Serializable {
     @Override
     public String toString() {
         return "com.vtl.pojo.Post[ id=" + id + " ]";
+    }
+    
+     /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
     
 }

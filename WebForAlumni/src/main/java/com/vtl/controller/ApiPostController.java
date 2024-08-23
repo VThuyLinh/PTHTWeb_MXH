@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,6 +38,15 @@ public class ApiPostController {
     {
         this.ps.deletePost(id);
     }
+    
+    
+    
+//    @PatchMapping("/Post/{postId}")
+//    @ResponseStatus(HttpStatus.OK)
+//    public void updateActive(@PathVariable(value="postId") int id)
+//    {
+//        this.ps.updateActivePost(id);
+//    }
     
     
     @GetMapping("/Post")

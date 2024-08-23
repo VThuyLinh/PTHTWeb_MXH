@@ -55,6 +55,7 @@
         <put-attribute name="title" value="AddOrUpdate" />
         <put-attribute name="content" value="/WEB-INF/pages/AddPost.jsp" />
     </definition>
+
     
     
 </tiles-definitions>

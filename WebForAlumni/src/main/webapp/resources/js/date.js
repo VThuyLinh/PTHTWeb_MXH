@@ -3,10 +3,10 @@
 
 function showDate(a)
 {
-    let data1= a.slice(0,10);
-    let data2= data1.split("-");
-    let data= data2.reverse();
-     document.getElementById('date').innerHTML = "Ngày tổ chức: " + data[0] + "-"+data[1]+"-"+data[2];
+    let data1 = a.slice(0, 10);
+    let data2 = data1.split("-");
+    let data = data2.reverse();
+    document.getElementById('date').innerHTML = "Ngày tổ chức: " + data[0] + "-" + data[1] + "-" + data[2];
 }
 
 
@@ -68,5 +68,30 @@ function deleteNotification(endpoint, noId) {
 }
 
 
-    
+
+function upDateActivePost (endpoint, noId) {
+    if (confirm("Bạn chắc chắn khóa không?") === true) {
+        fetch(endpoint, {
+       
+        method: "PATCH",
+        body: JSON.stringify({"active":0})
+        }).then(res => {
+            if (res.status === 200)
+                alert("OK");
+        });
+    }
+}
+
+
+
+function getDate()
+        {
+        var curDate = new Date();
+                document.getElementById('createdDate').valueOf = curDate.getTime();
+                // return TRUE/FALSE;
+                }
+
+
+
+
    

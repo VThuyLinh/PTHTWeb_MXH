@@ -14,13 +14,13 @@
     <form action="${action}">
         <div class="row">
             <div class="mb-3 mt-3 col p-2" style="margin-left: 30px">
-                <label for="q" class="form-label">Từ khóa n?i dung:</label>
-                <input type="text" class="form-control" id="q" placeholder="Từ khóa n?i dung..." name="q">
+                <label for="q" class="form-label">Tìm kiếm nội dung</label>
+                <input type="text" class="form-control" id="q" placeholder="Tìm kiếm nội dung..." name="q">
             </div>
             <div class="mb-3 mt-3 col p-2">
 
                 </select>
-                <label for="major" class="form-label">Theo nhóm ngành:</label>
+                <label for="major" class="form-label">Tìm kiếm theo ngành:</label>
                 <select name="major" id="major" class="form-control">
                     <option value="">Ngành</option>
                     <c:forEach items="${major}" var="m">
@@ -31,16 +31,16 @@
 
             </div>
             <div class="mb-3 mt-3 col p-2">
-                <label for="fromDate" class="form-label">Từ ngày :</label>
+                <label for="fromDate" class="form-label">Bài đăng từ ngày :</label>
                 <input type="date" class="form-control" id="fromDate" placeholder="Từ ngày..." name="fromDate">
             </div>
             <div class="mb-3 mt-3 col p-2">
-                <label for="toDate" class="form-label">Đến ngày:</label>
+                <label for="toDate" class="form-label">Bài đăng dến ngày:</label>
                 <input type="date" class="form-control" id="toDate" placeholder="Đến ngày..." name="toDate">
             </div>
 
             <div class="mb-3 col p-2">
-                <button class="btn btn-info " style="width:150px; margin-top: 48px; margin-left: 30px" type="submit">Tìm </button>
+                <button class="btn btn-info " style="width:150px; margin-top: 48px; margin-left: 30px" type="submit">Tìm kiếm </button>
             </div>
         </div>
     </form>
@@ -53,7 +53,7 @@
 
 <h3>Bài dang</h3>
 <div>
-    <a class="btn btn-info m-1" href="<c:url value="/Post" />">Thêm sản phẩm</a>
+    <a class="btn btn-info m-1" href="<c:url value="/AddPost" />">Thêm bài</a>
     <div>
         <div class="col-md-10 col-12 p-3">
             <table class="table table-striped">
@@ -64,6 +64,7 @@
                     <th>Nội dung</th>
                     <th>Ngày đăng</th>
                     <th>Người đăng</th>
+                    <th></th>
                     <th></th>
                     <th></th>
                 </tr>
@@ -91,6 +92,10 @@
                         <td>
                             <c:url value="/api/Post/${p.id}" var="st" />
                             <button onclick="deletePost('${st}', ${p.id})" class="btn btn-danger">&times;</button>
+                        </td>
+                        <td>
+                            <c:url value="/api/Post/${p.id}" var="st" />
+                            <button onclick="upDateActivePost('${st}', ${p.id})" class="btn btn-info">&#128274;</button>
                         </td>
 
                     </tr>

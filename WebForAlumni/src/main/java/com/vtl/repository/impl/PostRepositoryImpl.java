@@ -117,5 +117,13 @@ public class PostRepositoryImpl implements PostRepository {
         Post p = this.getPostById(id);
         s.delete(p);
     }
+    
+    
+//    @Override
+//    public void updateActivePost(int id) {
+//        Session s = this.factory.getObject().getCurrentSession();
+//        Post p = this.getPostById(id);
+//        s.update(p);
+//    }
 
 }

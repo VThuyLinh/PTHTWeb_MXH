@@ -4,7 +4,6 @@
  */
 package com.vtl.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -120,25 +119,18 @@ public class User implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userIdInvite")
-    @JsonIgnore
     private Set<Notification> notificationSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userPostId")
-    @JsonIgnore
+    @OneToMany(mappedBy = "userPostId")
     private Set<Post> postSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
-    @JsonIgnore
     private Set<Comment> commentSet;
     @OneToMany(mappedBy = "userId")
-     @JsonIgnore
     private Set<GroupUser> groupUserSet;
     @JoinColumn(name = "department", referencedColumnName = "id")
-
     @ManyToOne
-    @JsonIgnore
     private Department department;
     @JoinColumn(name = "major", referencedColumnName = "id")
     @ManyToOne
-    @JsonIgnore
     private Major major;
 
     public User() {
@@ -356,5 +348,5 @@ public class User implements Serializable {
     public String toString() {
         return "com.vtl.pojo.User[ id=" + id + " ]";
     }
-
+    
 }
