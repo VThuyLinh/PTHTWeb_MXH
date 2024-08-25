@@ -26,7 +26,7 @@
             <th>${u.username}</th>
             <th>${u.firstname} ${u.lastname}</th>
             <th>${u.role}</th>
-            <td><c:url value="/Post/${p.id}" var="post" /><a href="${post}" class="btn btn-success">&orarr;</a></td>
+            <td><c:url value="/User/${u.id}" var="user" /><a href="${user}" class="btn btn-success">&orarr;</a></td>
             <td><c:url value="/api/Users/${u.id}" var="us" />
                     <button onclick="deleteUser('${us}', ${u.id})" class="btn btn-danger">&times;</button></td>
         </tr>

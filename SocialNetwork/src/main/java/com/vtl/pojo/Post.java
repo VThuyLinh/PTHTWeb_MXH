@@ -5,7 +5,6 @@
 package com.vtl.pojo;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -20,8 +19,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -35,11 +32,11 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Post.findAll", query = "SELECT p FROM Post p"),
     @NamedQuery(name = "Post.findById", query = "SELECT p FROM Post p WHERE p.id = :id"),
-    @NamedQuery(name = "Post.findByTopic", query = "SELECT p FROM Post p WHERE p.topic = :topic"),
     @NamedQuery(name = "Post.findByContent", query = "SELECT p FROM Post p WHERE p.content = :content"),
     @NamedQuery(name = "Post.findByLikeHahaHeart", query = "SELECT p FROM Post p WHERE p.likeHahaHeart = :likeHahaHeart"),
     @NamedQuery(name = "Post.findByCreatedDate", query = "SELECT p FROM Post p WHERE p.createdDate = :createdDate"),
-    @NamedQuery(name = "Post.findByActive", query = "SELECT p FROM Post p WHERE p.active = :active")})
+    @NamedQuery(name = "Post.findByActive", query = "SELECT p FROM Post p WHERE p.active = :active"),
+    @NamedQuery(name = "Post.findByImage", query = "SELECT p FROM Post p WHERE p.image = :image")})
 public class Post implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,29 +46,28 @@ public class Post implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "topic")
-    private String topic;
-    @Basic(optional = false)
     @Column(name = "content")
     private String content;
     @Basic(optional = false)
     @Column(name = "like_haha_heart")
-    private boolean likeHahaHeart;
+    private int likeHahaHeart;
     @Basic(optional = false)
     @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    private String createdDate;
     @Basic(optional = false)
     @Column(name = "active")
     private boolean active;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "postId")
-    private Set<Image> imageSet;
+    @Column(name = "image")
+    private String image;
     @JoinColumn(name = "major_id", referencedColumnName = "id")
-    @ManyToOne
-    private Major majorId;
-    @JoinColumn(name = "user_post_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private User userPostId;
+    private Major majorId;
+    @JoinColumn(name = "topic_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Topic topicId;
+    @JoinColumn(name = "userId", referencedColumnName = "id")
+    @ManyToOne
+    private User userId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "postId")
     private Set<Comment> commentSet;
 
@@ -82,9 +78,8 @@ public class Post implements Serializable {
         this.id = id;
     }
 
-    public Post(Integer id, String topic, String content, boolean likeHahaHeart, Date createdDate, boolean active) {
+    public Post(Integer id, String content, int likeHahaHeart, String createdDate, boolean active) {
         this.id = id;
-        this.topic = topic;
         this.content = content;
         this.likeHahaHeart = likeHahaHeart;
         this.createdDate = createdDate;
@@ -99,14 +94,6 @@ public class Post implements Serializable {
         this.id = id;
     }
 
-    public String getTopic() {
-        return topic;
-    }
-
-    public void setTopic(String topic) {
-        this.topic = topic;
-    }
-
     public String getContent() {
         return content;
     }
@@ -115,19 +102,19 @@ public class Post implements Serializable {
         this.content = content;
     }
 
-    public boolean getLikeHahaHeart() {
+    public int getLikeHahaHeart() {
         return likeHahaHeart;
     }
 
-    public void setLikeHahaHeart(boolean likeHahaHeart) {
+    public void setLikeHahaHeart(int likeHahaHeart) {
         this.likeHahaHeart = likeHahaHeart;
     }
 
-    public Date getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -139,13 +126,12 @@ public class Post implements Serializable {
         this.active = active;
     }
 
-    @XmlTransient
-    public Set<Image> getImageSet() {
-        return imageSet;
+    public String getImage() {
+        return image;
     }
 
-    public void setImageSet(Set<Image> imageSet) {
-        this.imageSet = imageSet;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Major getMajorId() {
@@ -156,12 +142,20 @@ public class Post implements Serializable {
         this.majorId = majorId;
     }
 
-    public User getUserPostId() {
-        return userPostId;
+    public Topic getTopicId() {
+        return topicId;
     }
 
-    public void setUserPostId(User userPostId) {
-        this.userPostId = userPostId;
+    public void setTopicId(Topic topicId) {
+        this.topicId = topicId;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @XmlTransient

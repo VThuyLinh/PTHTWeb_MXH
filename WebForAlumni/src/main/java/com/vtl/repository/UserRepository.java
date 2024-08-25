@@ -27,6 +27,7 @@ import java.util.List;
     public List<User> getInfoAllUser();
     public User getInfoUserById(int id);
      public void deleteUser(int id);
+      public void updateUser(User u);
  }
 
 

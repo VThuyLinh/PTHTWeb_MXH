@@ -10,13 +10,13 @@
 <%@taglib prefix="s" uri="http://www.springframework.org/security/tags" %>
 
 
-<c:url value="/AddPost" var="action"></c:url>
+<c:url value="/AddNotification" var="action"></c:url>
 <c:if test="${errMsg != null}">
     <div class="alert alert-danger">
         ${errMsg}
     </div>
 </c:if>
-<f:form action="${action}" method="post" enctype="multipart/form-data"  modelAttribute="addPost">
+<f:form action="${action}" method="post" enctype="multipart/form-data"  modelAttribute="addNotification">
     <h1>${ex}</h1>
     <div class="mb-3 mt-3">
         <label for="topic" class="form-label">Topic</label>
@@ -67,5 +67,5 @@
         <f:input path="file" type="file" accept=".jpg,.png" class="form-control" id="file" name="file" />
 
     </div>
-    <button type="submit" class="btn btn-primary">Cập nhật</button>
+    <button type="submit" class="btn btn-primary">Thêm bài</button>
 </f:form>

@@ -5,7 +5,6 @@
 package com.vtl.pojo;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -20,8 +19,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -73,7 +70,6 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "email")
     private String email;
-    @Basic(optional = false)
     @Column(name = "role")
     private String role;
     @Basic(optional = false)
@@ -90,16 +86,16 @@ public class User implements Serializable {
     private String cover;
     @Column(name = "degree")
     private String degree;
-    @Basic(optional = false)
     @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    private String createdDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userIdInvite")
     private Set<Notification> notificationSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userPostId")
+    @OneToMany(mappedBy = "userId")
     private Set<Post> postSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     private Set<Comment> commentSet;
+    @OneToMany(mappedBy = "userId")
+    private Set<GroupUser> groupUserSet;
     @JoinColumn(name = "department", referencedColumnName = "id")
     @ManyToOne
     private Department department;
@@ -114,16 +110,14 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Integer id, String firstname, String lastname, String phone, String email, String role, String avatar, String cover, Date createdDate) {
+    public User(Integer id, String firstname, String lastname, String phone, String email, String avatar, String cover) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.phone = phone;
         this.email = email;
-        this.role = role;
         this.avatar = avatar;
         this.cover = cover;
-        this.createdDate = createdDate;
     }
 
     public Integer getId() {
@@ -238,11 +232,11 @@ public class User implements Serializable {
         this.degree = degree;
     }
 
-    public Date getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -271,6 +265,15 @@ public class User implements Serializable {
 
     public void setCommentSet(Set<Comment> commentSet) {
         this.commentSet = commentSet;
+    }
+
+    @XmlTransient
+    public Set<GroupUser> getGroupUserSet() {
+        return groupUserSet;
+    }
+
+    public void setGroupUserSet(Set<GroupUser> groupUserSet) {
+        this.groupUserSet = groupUserSet;
     }
 
     public Department getDepartment() {

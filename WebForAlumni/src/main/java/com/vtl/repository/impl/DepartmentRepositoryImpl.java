@@ -4,10 +4,8 @@
  */
 package com.vtl.repository.impl;
 
-import com.vtl.pojo.Major;
-import com.vtl.pojo.TeamUser;
-import com.vtl.repository.MajorRepository;
-import com.vtl.repository.TeamUserRepository;
+import com.vtl.pojo.Department;
+import com.vtl.repository.DepartmentRepository;
 import java.util.List;
 import javax.persistence.Query;
 import org.hibernate.Session;
@@ -16,28 +14,29 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+
 /**
  *
  * @author Thuy Linh
  */
 
+
+
 @Repository
 @Transactional
-public class TeamUserRepositoryImpl implements TeamUserRepository {
+public class DepartmentRepositoryImpl implements DepartmentRepository {
     
     @Autowired
     private LocalSessionFactoryBean factory;
     
     @Override
-    public List<TeamUser> getTeamUser()
+    public List<Department> getDepartment()
     {
         Session s= this.factory.getObject().getCurrentSession();
         
-            Query q= s.createNamedQuery("TeamUser.findAll");
+            Query q= s.createNamedQuery("Department.findAll");
            
              return q.getResultList();
         
     }
-
-  
 }

@@ -4,8 +4,8 @@
  */
 package com.vtl.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -20,12 +20,12 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -87,9 +87,7 @@ public class User implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "email")
     private String email;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 20)
+    @Size(max = 20)
     @Column(name = "role")
     private String role;
     @Basic(optional = false)
@@ -113,25 +111,33 @@ public class User implements Serializable {
     @Size(max = 100)
     @Column(name = "degree")
     private String degree;
-    @Basic(optional = false)
-    @NotNull
+    @Size(max = 100)
     @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    private String createdDate;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userIdInvite")
+    @JsonIgnore
     private Set<Notification> notificationSet;
-    @OneToMany(mappedBy = "userPostId")
+    @OneToMany(mappedBy = "userId")
+    @JsonIgnore
     private Set<Post> postSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @JsonIgnore
     private Set<Comment> commentSet;
     @OneToMany(mappedBy = "userId")
-    private Set<GroupUser> groupUserSet;
+    @JsonIgnore
+    private Set<TeamUser> teamUserSet;
     @JoinColumn(name = "department", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Department department;
     @JoinColumn(name = "major", referencedColumnName = "id")
     @ManyToOne
+    @JsonIgnore
     private Major major;
+    
+    
+    @Transient
+    private MultipartFile file;
 
     public User() {
     }
@@ -140,16 +146,14 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Integer id, String firstname, String lastname, String phone, String email, String role, String avatar, String cover, Date createdDate) {
+    public User(Integer id, String firstname, String lastname, String phone, String email, String avatar, String cover) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.phone = phone;
         this.email = email;
-        this.role = role;
         this.avatar = avatar;
         this.cover = cover;
-        this.createdDate = createdDate;
     }
 
     public Integer getId() {
@@ -264,11 +268,11 @@ public class User implements Serializable {
         this.degree = degree;
     }
 
-    public Date getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -300,12 +304,12 @@ public class User implements Serializable {
     }
 
     @XmlTransient
-    public Set<GroupUser> getGroupUserSet() {
-        return groupUserSet;
+    public Set<TeamUser> getTeamUserSet() {
+        return teamUserSet;
     }
 
-    public void setGroupUserSet(Set<GroupUser> groupUserSet) {
-        this.groupUserSet = groupUserSet;
+    public void setTeamUserSet(Set<TeamUser> teamUserSet) {
+        this.teamUserSet = teamUserSet;
     }
 
     public Department getDepartment() {
@@ -347,6 +351,21 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "com.vtl.pojo.User[ id=" + id + " ]";
+    }
+    
+    
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
     
 }

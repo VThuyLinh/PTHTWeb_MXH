@@ -8,6 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -50,7 +51,7 @@ public class Topic implements Serializable {
     @Size(max = 500)
     @Column(name = "information")
     private String information;
-    @OneToMany(mappedBy = "topicId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "topicId")
     @JsonIgnore
     private Set<Post> postSet;
 

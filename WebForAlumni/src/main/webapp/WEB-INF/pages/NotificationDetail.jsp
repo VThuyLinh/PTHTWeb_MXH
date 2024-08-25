@@ -40,19 +40,57 @@
             </c:if>
         </c:forEach>
     </div>
-   
+
+
+
+
+    <div class="mb-3 mt-3">
+        <label for="time" class="form-label">Mời nhóm</label>
+        <c:forEach items="${teamNoti}" var="tn">
+            <c:if test="${tn.noId.id==noDetail.id}">
+                <c:forEach items="${team}" var="t">
+                    <c:if test="${t.id==noDetail.id}">
+                        <input type="text" class="form-control" id="time" value="${t.name}" name="time"/></c:if>
+                </c:forEach>
+            </c:if>
+
+        </c:forEach>
+    </div>
+
 
     <div class="mb-3 mt-3">
         <f:hidden path="id" />
         <f:hidden path="cover" />
-        <button class="btn btn-success" type="submit">
-
-
-
-            <option value="${noDetail.id}" selected>Cập nhật bài đăng</option>
+        <button class="btn btn-success" type="submit">Cập nhật bài đăng</button>
 
     </div>
 
 
 </f:form>
+
+
+
+<h1>Các thành viên nhóm được mời</h1>
+<div class="row" style="align-items: center">
+    <c:forEach items="${team}" var="t">
+        <c:forEach items="${teamUser}" var="tu">
+            <c:forEach items="${teamNoti}" var="tn">
+                <c:if test="${tu.groupId.id==tn.groupId.id}">
+                    <c:forEach items="${user}" var="u">
+                        <c:if test="${t.id==tn.groupId.id && tu.userId.id==u.id}">
+                            <div class="col-sm-2"><img src="${u.avatar}" style=" border-radius: 50%; margin: 10px"width="80px"/></div>
+                    <div class="col-sm-4"><h6>${u.username}(Nhóm : ${t.id} - ${t.name})</h6></div>
+
+                            
+
+                        </c:if>
+                    </c:forEach>
+                </c:if>
+            </c:forEach>
+        </c:forEach>
+    </c:forEach>
+
+</div>
+
+
 

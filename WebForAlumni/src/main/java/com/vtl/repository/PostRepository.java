@@ -17,5 +17,6 @@ public interface PostRepository {
     public void addOrUpdatePost(Post p);
     public Post getPostById(int id);
     public void deletePost(int id);
-//    public void updateActivePost(int id);
+    public List<Post> getPostActive(); 
+
 }

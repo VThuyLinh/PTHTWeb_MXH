@@ -11,7 +11,7 @@
 
 <div class="col-md-12 col-12 ">
     <c:url value="/" var="action" />
-    <form action="${action}">
+    <form:form action="${action}">
         <div class="row">
             <div class="mb-3 mt-3 col p-2" style="margin-left: 30px">
                 <label for="q" class="form-label">Tìm kiếm nội dung</label>
@@ -43,7 +43,7 @@
                 <button class="btn btn-info " style="width:150px; margin-top: 48px; margin-left: 30px" type="submit">Tìm kiếm </button>
             </div>
         </div>
-    </form>
+    </form:form>
 </div>
 
 
@@ -80,7 +80,7 @@
                         <td>${p.createdDate}</td>
                         <c:forEach items="${user}" var="u">
                             <c:choose >
-                                <c:when test="${u.id == p.userPostId.id}">
+                                <c:when test="${u.id == p.userId.id}">
                                     <td>${u.username}</td>
                                 </c:when>
                             </c:choose>
@@ -93,10 +93,7 @@
                             <c:url value="/api/Post/${p.id}" var="st" />
                             <button onclick="deletePost('${st}', ${p.id})" class="btn btn-danger">&times;</button>
                         </td>
-                        <td>
-                            <c:url value="/api/Post/${p.id}" var="st" />
-                            <button onclick="upDateActivePost('${st}', ${p.id})" class="btn btn-info">&#128274;</button>
-                        </td>
+                        
 
                     </tr>
                 </c:forEach>

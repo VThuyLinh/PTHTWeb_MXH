@@ -67,5 +67,5 @@
         <f:input path="file" type="file" accept=".jpg,.png" class="form-control" id="file" name="file" />
 
     </div>
-    <button type="submit" class="btn btn-primary">Cập nhật</button>
+    <button type="submit" class="btn btn-primary">Thêm bài</button>
 </f:form>

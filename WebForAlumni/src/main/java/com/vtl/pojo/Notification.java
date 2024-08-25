@@ -6,7 +6,6 @@ package com.vtl.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -21,12 +20,12 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -64,14 +63,14 @@ public class Notification implements Serializable {
     private String address;
     @Basic(optional = false)
     @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "time")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date time;
+    private String time;
     @Column(name = "active")
     private Boolean active;
+    @Size(max = 100)
     @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    private String createdDate;
     @Size(max = 500)
     @Column(name = "cover")
     private String cover;
@@ -81,7 +80,12 @@ public class Notification implements Serializable {
     private User userIdInvite;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "noId")
     @JsonIgnore
-    private Set<GroupNotification> groupNotificationSet;
+    private Set<TeamNotification> teamNotificationSet;
+    
+    
+    
+    @Transient
+    private MultipartFile file;
 
     public Notification() {
     }
@@ -90,7 +94,7 @@ public class Notification implements Serializable {
         this.id = id;
     }
 
-    public Notification(Integer id, String content, String address, Date time) {
+    public Notification(Integer id, String content, String address, String time) {
         this.id = id;
         this.content = content;
         this.address = address;
@@ -121,11 +125,11 @@ public class Notification implements Serializable {
         this.address = address;
     }
 
-    public Date getTime() {
+    public String getTime() {
         return time;
     }
 
-    public void setTime(Date time) {
+    public void setTime(String time) {
         this.time = time;
     }
 
@@ -137,11 +141,11 @@ public class Notification implements Serializable {
         this.active = active;
     }
 
-    public Date getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -162,12 +166,12 @@ public class Notification implements Serializable {
     }
 
     @XmlTransient
-    public Set<GroupNotification> getGroupNotificationSet() {
-        return groupNotificationSet;
+    public Set<TeamNotification> getTeamNotificationSet() {
+        return teamNotificationSet;
     }
 
-    public void setGroupNotificationSet(Set<GroupNotification> groupNotificationSet) {
-        this.groupNotificationSet = groupNotificationSet;
+    public void setTeamNotificationSet(Set<TeamNotification> teamNotificationSet) {
+        this.teamNotificationSet = teamNotificationSet;
     }
 
     @Override
@@ -193,6 +197,21 @@ public class Notification implements Serializable {
     @Override
     public String toString() {
         return "com.vtl.pojo.Notification[ id=" + id + " ]";
+    }
+    
+    
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
     
 }

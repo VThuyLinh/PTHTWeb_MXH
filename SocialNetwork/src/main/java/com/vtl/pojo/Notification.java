@@ -6,7 +6,9 @@ package com.vtl.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,10 +18,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -65,6 +69,8 @@ public class Notification implements Serializable {
     @JoinColumn(name = "user_id_invite", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private User userIdInvite;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "noId")
+    private Set<GroupNotification> groupNotificationSet;
 
     public Notification() {
     }
@@ -142,6 +148,15 @@ public class Notification implements Serializable {
 
     public void setUserIdInvite(User userIdInvite) {
         this.userIdInvite = userIdInvite;
+    }
+
+    @XmlTransient
+    public Set<GroupNotification> getGroupNotificationSet() {
+        return groupNotificationSet;
+    }
+
+    public void setGroupNotificationSet(Set<GroupNotification> groupNotificationSet) {
+        this.groupNotificationSet = groupNotificationSet;
     }
 
     @Override

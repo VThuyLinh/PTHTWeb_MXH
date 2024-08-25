@@ -2,9 +2,8 @@
 package com.vtl.socialnetwork;
 
 
-import com.vtl.repository.impl.ImageRepositoryImpl;
-import com.vtl.repository.impl.NotificationRepositoryImpl;
-import com.vtl.repository.impl.UserRepositoryImpl;
+
+import com.vtl.repository.impl.PostRepositoryImpl;
 //import com.vtl.repository.impl.PostRepositoryImpl;
 //import com.vtl.repository.impl.StatsRepositoryImpl;
 //import java.sql.SQLException;
@@ -22,9 +21,9 @@ public class SocialNetwork {
 
     public static void main(String[] args) {
 
-        UserRepositoryImpl us= new UserRepositoryImpl();
-        us.getAllUser().forEach(a-> System.out.println(a.getUsername()));
-        us.getAllUser().forEach(a-> System.out.println(a.getId()));
+        PostRepositoryImpl ps= new PostRepositoryImpl();
+//        ps.getPostActive().forEach(a-> System.out.println(a.getContent()));
+        ps.getPostActive().forEach(a-> System.out.println(a.getActive()));
         
 //        ImageRepositoryImpl i = new ImageRepositoryImpl();
 ////        i.getImageByPostId(1);

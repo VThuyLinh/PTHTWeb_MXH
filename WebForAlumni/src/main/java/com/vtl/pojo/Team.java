@@ -5,7 +5,6 @@
 package com.vtl.pojo;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -18,8 +17,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -28,15 +27,15 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Thuy Linh
  */
 @Entity
-@Table(name = "group")
+@Table(name = "team")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Group1.findAll", query = "SELECT g FROM Group1 g"),
-    @NamedQuery(name = "Group1.findById", query = "SELECT g FROM Group1 g WHERE g.id = :id"),
-    @NamedQuery(name = "Group1.findByName", query = "SELECT g FROM Group1 g WHERE g.name = :name"),
-    @NamedQuery(name = "Group1.findByCreatedDate", query = "SELECT g FROM Group1 g WHERE g.createdDate = :createdDate"),
-    @NamedQuery(name = "Group1.findByActive", query = "SELECT g FROM Group1 g WHERE g.active = :active")})
-public class Group1 implements Serializable {
+    @NamedQuery(name = "Team.findAll", query = "SELECT t FROM Team t"),
+    @NamedQuery(name = "Team.findById", query = "SELECT t FROM Team t WHERE t.id = :id"),
+    @NamedQuery(name = "Team.findByName", query = "SELECT t FROM Team t WHERE t.name = :name"),
+    @NamedQuery(name = "Team.findByCreatedDate", query = "SELECT t FROM Team t WHERE t.createdDate = :createdDate"),
+    @NamedQuery(name = "Team.findByActive", query = "SELECT t FROM Team t WHERE t.active = :active")})
+public class Team implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -45,26 +44,28 @@ public class Group1 implements Serializable {
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 200)
     @Column(name = "name")
     private String name;
+    @Size(max = 100)
     @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    private String createdDate;
     @Column(name = "active")
     private Boolean active;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupId")
-    private Set<GroupNotification> groupNotificationSet;
     @OneToMany(mappedBy = "groupId")
-    private Set<GroupUser> groupUserSet;
+    private Set<TeamUser> teamUserSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupId")
+    private Set<TeamNotification> teamNotificationSet;
 
-    public Group1() {
+    public Team() {
     }
 
-    public Group1(Integer id) {
+    public Team(Integer id) {
         this.id = id;
     }
 
-    public Group1(Integer id, String name) {
+    public Team(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -85,11 +86,11 @@ public class Group1 implements Serializable {
         this.name = name;
     }
 
-    public Date getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -102,21 +103,21 @@ public class Group1 implements Serializable {
     }
 
     @XmlTransient
-    public Set<GroupNotification> getGroupNotificationSet() {
-        return groupNotificationSet;
+    public Set<TeamUser> getTeamUserSet() {
+        return teamUserSet;
     }
 
-    public void setGroupNotificationSet(Set<GroupNotification> groupNotificationSet) {
-        this.groupNotificationSet = groupNotificationSet;
+    public void setTeamUserSet(Set<TeamUser> teamUserSet) {
+        this.teamUserSet = teamUserSet;
     }
 
     @XmlTransient
-    public Set<GroupUser> getGroupUserSet() {
-        return groupUserSet;
+    public Set<TeamNotification> getTeamNotificationSet() {
+        return teamNotificationSet;
     }
 
-    public void setGroupUserSet(Set<GroupUser> groupUserSet) {
-        this.groupUserSet = groupUserSet;
+    public void setTeamNotificationSet(Set<TeamNotification> teamNotificationSet) {
+        this.teamNotificationSet = teamNotificationSet;
     }
 
     @Override
@@ -129,10 +130,10 @@ public class Group1 implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Group1)) {
+        if (!(object instanceof Team)) {
             return false;
         }
-        Group1 other = (Group1) object;
+        Team other = (Team) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -141,7 +142,7 @@ public class Group1 implements Serializable {
 
     @Override
     public String toString() {
-        return "com.vtl.pojo.Group1[ id=" + id + " ]";
+        return "com.vtl.pojo.Team[ id=" + id + " ]";
     }
     
 }

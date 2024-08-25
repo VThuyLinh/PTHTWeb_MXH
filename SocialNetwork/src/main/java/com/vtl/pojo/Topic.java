@@ -5,7 +5,6 @@
 package com.vtl.pojo;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -18,8 +17,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -28,15 +25,14 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Thuy Linh
  */
 @Entity
-@Table(name = "group")
+@Table(name = "topic")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Group1.findAll", query = "SELECT g FROM Group1 g"),
-    @NamedQuery(name = "Group1.findById", query = "SELECT g FROM Group1 g WHERE g.id = :id"),
-    @NamedQuery(name = "Group1.findByName", query = "SELECT g FROM Group1 g WHERE g.name = :name"),
-    @NamedQuery(name = "Group1.findByCreatedDate", query = "SELECT g FROM Group1 g WHERE g.createdDate = :createdDate"),
-    @NamedQuery(name = "Group1.findByActive", query = "SELECT g FROM Group1 g WHERE g.active = :active")})
-public class Group1 implements Serializable {
+    @NamedQuery(name = "Topic.findAll", query = "SELECT t FROM Topic t"),
+    @NamedQuery(name = "Topic.findById", query = "SELECT t FROM Topic t WHERE t.id = :id"),
+    @NamedQuery(name = "Topic.findByName", query = "SELECT t FROM Topic t WHERE t.name = :name"),
+    @NamedQuery(name = "Topic.findByInformation", query = "SELECT t FROM Topic t WHERE t.information = :information")})
+public class Topic implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,24 +43,19 @@ public class Group1 implements Serializable {
     @Basic(optional = false)
     @Column(name = "name")
     private String name;
-    @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
-    @Column(name = "active")
-    private Boolean active;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupId")
-    private Set<GroupNotification> groupNotificationSet;
-    @OneToMany(mappedBy = "groupId")
-    private Set<GroupUser> groupUserSet;
+    @Column(name = "information")
+    private String information;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "topicId")
+    private Set<Post> postSet;
 
-    public Group1() {
+    public Topic() {
     }
 
-    public Group1(Integer id) {
+    public Topic(Integer id) {
         this.id = id;
     }
 
-    public Group1(Integer id, String name) {
+    public Topic(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -85,38 +76,21 @@ public class Group1 implements Serializable {
         this.name = name;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
+    public String getInformation() {
+        return information;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
+    public void setInformation(String information) {
+        this.information = information;
     }
 
     @XmlTransient
-    public Set<GroupNotification> getGroupNotificationSet() {
-        return groupNotificationSet;
+    public Set<Post> getPostSet() {
+        return postSet;
     }
 
-    public void setGroupNotificationSet(Set<GroupNotification> groupNotificationSet) {
-        this.groupNotificationSet = groupNotificationSet;
-    }
-
-    @XmlTransient
-    public Set<GroupUser> getGroupUserSet() {
-        return groupUserSet;
-    }
-
-    public void setGroupUserSet(Set<GroupUser> groupUserSet) {
-        this.groupUserSet = groupUserSet;
+    public void setPostSet(Set<Post> postSet) {
+        this.postSet = postSet;
     }
 
     @Override
@@ -129,10 +103,10 @@ public class Group1 implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Group1)) {
+        if (!(object instanceof Topic)) {
             return false;
         }
-        Group1 other = (Group1) object;
+        Topic other = (Topic) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -141,7 +115,7 @@ public class Group1 implements Serializable {
 
     @Override
     public String toString() {
-        return "com.vtl.pojo.Group1[ id=" + id + " ]";
+        return "com.vtl.pojo.Topic[ id=" + id + " ]";
     }
     
 }

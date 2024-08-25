@@ -5,8 +5,12 @@
 package com.vtl.controller;
 
 import com.vtl.pojo.Notification;
+import com.vtl.service.TeamNotificationService;
+//import com.vtl.service.TeampService;
 import com.vtl.service.MajorService;
 import com.vtl.service.NotificationService;
+import com.vtl.service.TeamService;
+import com.vtl.service.TeamUserService;
 import com.vtl.service.UserService;
 import java.util.Map;
 import javax.validation.Valid;
@@ -35,6 +39,16 @@ public class NotificationController {
 
     @Autowired
     private MajorService ms;
+    @Autowired
+    private TeamNotificationService tns;
+    
+    @Autowired
+    private TeamUserService tus;
+    
+    @Autowired
+    private TeamService ts;
+//    @Autowired
+//    private TeampService gs;
     
     @RequestMapping("/Notification")
     public String getNo(Model model, @RequestParam Map<String, String> params) {
@@ -47,10 +61,12 @@ public class NotificationController {
     @GetMapping("/Notification/{noId}")
     public String detailsView(Model model, @PathVariable(value = "noId") int id) {
           model.addAttribute("noDetail", this.noService.getNoById(id));
-//        model.addAttribute("major", this.ms.getMajor());
-//        model.addAttribute("image", this.is.getImageByPostId(id));
+          model.addAttribute("team", this.ts.getTeam());
+          model.addAttribute("teamNoti", this.tns.getTeam());
+          model.addAttribute("teamUser", this.tus.getTeamUser());
 //        model.addAttribute("cmt", this.cs.getListCommentById(id));
           model.addAttribute("user", this.us.getInfoAllUser());
+//           model.addAttribute("group", this.gs.getTeam());
           
         return "noDetail";
     }
@@ -60,16 +76,47 @@ public class NotificationController {
         {
         
         if (rs.hasErrors())
-            
             return "noDetail";
         
         try {
             this.noService.addOrUpdateNo(n);
-            return "noDetail";
+            return "redirect:/Notification";
         } catch (Exception ex) {
             model.addAttribute("errMsg", ex.getMessage());
         }
         
         return "noDetail";
     }
+    
+    
+    
+    @GetMapping("/AddNotification")
+    public String addNotificationView(Model model) {
+        Notification n = new Notification();
+        model.addAttribute("addNotification", n);
+//        model.addAttribute("topic", this.ts.getAllTopic());
+//        model.addAttribute("major", this.ms.getMajor());
+//        model.addAttribute("user", this.us.getInfoAllUser());
+
+        return "addNotification";
+    }
+
+    @PostMapping("/AddNotification")
+    public String addNotification(Model model, @ModelAttribute(value = "addNotification") @Valid Notification n, BindingResult rs) {
+        if (rs.hasErrors()) {
+            rs.getFieldErrors().stream().forEach(f -> System.out.println(f.getField() + ": " + f.getDefaultMessage()));
+            return "addNotification";
+        }
+        try {
+
+            this.noService.addOrUpdateNo(n);
+            
+            return "redirect:/Notification";
+        } catch (Exception ex) {
+            model.addAttribute("errMsg", ex.getMessage());
+        }
+
+        return "addNotification";
+    }
+
 }

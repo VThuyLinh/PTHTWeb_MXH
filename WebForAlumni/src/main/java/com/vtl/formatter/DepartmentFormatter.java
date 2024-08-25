@@ -4,7 +4,7 @@
  */
 package com.vtl.formatter;
 
-import com.vtl.pojo.User;
+import com.vtl.pojo.Department;
 import java.text.ParseException;
 import java.util.Locale;
 import org.springframework.format.Formatter;
@@ -13,19 +13,19 @@ import org.springframework.format.Formatter;
  *
  * @author Thuy Linh
  */
-public class UserFormatter implements Formatter<User> {
+public class DepartmentFormatter implements Formatter<Department>{
     
-    //Java do ra
+    
     @Override
-    public String print(User u, Locale locale) {
-        return String.valueOf(u.getId());
+    public String print(Department d, Locale locale) {
+        return String.valueOf(d.getId());
     }
 
     @Override
-    public User parse(String userId, Locale locale) throws ParseException {
-        User u = new User();
-        u.setId(Integer.parseInt(userId));
+    public Department parse(String departmentId, Locale locale) throws ParseException {
+        Department d = new Department();
+        d.setId(Integer.parseInt(departmentId));
         
-        return u;
+        return d;
     }
 }

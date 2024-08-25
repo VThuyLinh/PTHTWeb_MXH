@@ -6,7 +6,6 @@ package com.vtl.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
-import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -21,8 +20,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -62,9 +59,11 @@ public class Post implements Serializable {
     @NotNull
     @Column(name = "like_haha_heart")
     private int likeHahaHeart;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 100)
     @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
+    private String createdDate;
     @Basic(optional = false)
     @NotNull
     @Column(name = "active")
@@ -73,24 +72,26 @@ public class Post implements Serializable {
     @Column(name = "image")
     private String image;
     @JoinColumn(name = "major_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JsonIgnore
     private Major majorId;
     @JoinColumn(name = "topic_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JsonIgnore
     private Topic topicId;
-    @JoinColumn(name = "user_post_id", referencedColumnName = "id")
+    @JoinColumn(name = "userId", referencedColumnName = "id")
     @ManyToOne
     @JsonIgnore
-    private User userPostId;
+    private User userId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "postId")
     @JsonIgnore
     private Set<Comment> commentSet;
-
+    
+    
+    
     @Transient
     private MultipartFile file;
-    
+
     public Post() {
     }
 
@@ -98,10 +99,11 @@ public class Post implements Serializable {
         this.id = id;
     }
 
-    public Post(Integer id, String content, int likeHahaHeart, boolean active) {
+    public Post(Integer id, String content, int likeHahaHeart, String createdDate, boolean active) {
         this.id = id;
         this.content = content;
         this.likeHahaHeart = likeHahaHeart;
+        this.createdDate = createdDate;
         this.active = active;
     }
 
@@ -129,11 +131,11 @@ public class Post implements Serializable {
         this.likeHahaHeart = likeHahaHeart;
     }
 
-    public Date getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -169,12 +171,12 @@ public class Post implements Serializable {
         this.topicId = topicId;
     }
 
-    public User getUserPostId() {
-        return userPostId;
+    public User getUserId() {
+        return userId;
     }
 
-    public void setUserPostId(User userPostId) {
-        this.userPostId = userPostId;
+    public void setUserId(User userId) {
+        this.userId = userId;
     }
 
     @XmlTransient
@@ -211,7 +213,7 @@ public class Post implements Serializable {
         return "com.vtl.pojo.Post[ id=" + id + " ]";
     }
     
-     /**
+    /**
      * @return the file
      */
     public MultipartFile getFile() {
@@ -224,5 +226,6 @@ public class Post implements Serializable {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
+    
     
 }

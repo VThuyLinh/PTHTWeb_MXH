@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,17 +40,20 @@ public class ApiPostController {
     
     
     
-//    @PatchMapping("/Post/{postId}")
-//    @ResponseStatus(HttpStatus.OK)
-//    public void updateActive(@PathVariable(value="postId") int id)
-//    {
-//        this.ps.updateActivePost(id);
-//    }
+
     
     
     @GetMapping("/Post")
     public ResponseEntity<List<Post>> list(@RequestParam Map<String, String> params) {
         List<Post> post = this.ps.getPost(params);
+        
+        return new ResponseEntity<>(post, HttpStatus.OK);
+    }
+    
+    
+    @GetMapping("/PostActive")
+    public ResponseEntity<List<Post>> listActive() {
+        List<Post> post = this.ps.getPostActive();
         
         return new ResponseEntity<>(post, HttpStatus.OK);
     }

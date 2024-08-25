@@ -106,7 +106,7 @@ public class PostRepositoryImpl implements PostRepository {
     @Override
     public Post getPostById(int id) {
         Session s = this.factory.getObject().getCurrentSession();
-
+        
         return s.get(Post.class, id);
 
     }
@@ -119,11 +119,18 @@ public class PostRepositoryImpl implements PostRepository {
     }
     
     
-//    @Override
-//    public void updateActivePost(int id) {
-//        Session s = this.factory.getObject().getCurrentSession();
-//        Post p = this.getPostById(id);
-//        s.update(p);
-//    }
+    @Override
+    public List<Post> getPostActive() 
+    {
+        Session s= this.factory.getObject().getCurrentSession();
+           CriteriaBuilder b= s.getCriteriaBuilder();
+            CriteriaQuery<Post> q= b.createQuery(Post.class);
+            Root <Post> rP= q.from(Post.class);
+            q.where(b.equal(rP.get("active"), true));
+            Query query= s.createQuery(q);
+            return query.getResultList();
+        }
+
+
 
 }

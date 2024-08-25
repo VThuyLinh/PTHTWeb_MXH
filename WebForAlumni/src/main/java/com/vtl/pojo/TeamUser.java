@@ -5,19 +5,17 @@
 package com.vtl.pojo;
 
 import java.io.Serializable;
-import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -25,48 +23,35 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author Thuy Linh
  */
 @Entity
-@Table(name = "comment")
+@Table(name = "team_user")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c"),
-    @NamedQuery(name = "Comment.findById", query = "SELECT c FROM Comment c WHERE c.id = :id"),
-    @NamedQuery(name = "Comment.findByActive", query = "SELECT c FROM Comment c WHERE c.active = :active"),
-    @NamedQuery(name = "Comment.findByCreatedDate", query = "SELECT c FROM Comment c WHERE c.createdDate = :createdDate")})
-public class Comment implements Serializable {
+    @NamedQuery(name = "TeamUser.findAll", query = "SELECT t FROM TeamUser t"),
+    @NamedQuery(name = "TeamUser.findById", query = "SELECT t FROM TeamUser t WHERE t.id = :id"),
+    @NamedQuery(name = "TeamUser.findByCreatedDate", query = "SELECT t FROM TeamUser t WHERE t.createdDate = :createdDate")})
+public class TeamUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
-    @Basic(optional = false)
-    @Lob
-    @Column(name = "content")
-    private String content;
-    @Basic(optional = false)
-    @Column(name = "active")
-    private boolean active;
+    @Size(max = 100)
     @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date createdDate;
-    @JoinColumn(name = "post_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
-    private Post postId;
+    private String createdDate;
+    @JoinColumn(name = "group_id", referencedColumnName = "id")
+    @ManyToOne
+    private Team groupId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private User userId;
 
-    public Comment() {
+    public TeamUser() {
     }
 
-    public Comment(Integer id) {
+    public TeamUser(Integer id) {
         this.id = id;
-    }
-
-    public Comment(Integer id, String content, boolean active) {
-        this.id = id;
-        this.content = content;
-        this.active = active;
     }
 
     public Integer getId() {
@@ -77,36 +62,20 @@ public class Comment implements Serializable {
         this.id = id;
     }
 
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public Date getCreatedDate() {
+    public String getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(String createdDate) {
         this.createdDate = createdDate;
     }
 
-    public Post getPostId() {
-        return postId;
+    public Team getGroupId() {
+        return groupId;
     }
 
-    public void setPostId(Post postId) {
-        this.postId = postId;
+    public void setGroupId(Team groupId) {
+        this.groupId = groupId;
     }
 
     public User getUserId() {
@@ -127,10 +96,10 @@ public class Comment implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Comment)) {
+        if (!(object instanceof TeamUser)) {
             return false;
         }
-        Comment other = (Comment) object;
+        TeamUser other = (TeamUser) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -139,7 +108,7 @@ public class Comment implements Serializable {
 
     @Override
     public String toString() {
-        return "com.vtl.pojo.Comment[ id=" + id + " ]";
+        return "com.vtl.pojo.TeamUser[ id=" + id + " ]";
     }
     
 }

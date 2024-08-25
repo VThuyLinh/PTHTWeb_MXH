@@ -94,6 +94,18 @@ public class PostRepositoryImpl {
     }
     
     
+    public List<Post> getPostActive() 
+    {
+        try (Session s = HibernateUtils.getFactory().openSession()) {
+            CriteriaBuilder b= s.getCriteriaBuilder();
+            CriteriaQuery<Post> q= b.createQuery(Post.class);
+            Root <Post> rP= q.from(Post.class);
+            q.where(b.equal(rP.get("active"), true));
+            Query query= s.createQuery(q);
+            return query.getResultList();
+        }
+    }
+    
     
     
 }

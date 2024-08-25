@@ -4,17 +4,15 @@
  */
 package com.vtl.repository;
 
+import com.vtl.pojo.TeamNotification;
 
-import com.vtl.pojo.TeamUser;
 import java.util.List;
-
 
 /**
  *
  * @author Thuy Linh
  */
-public interface TeamUserRepository {
-    public List<TeamUser> getTeamUser();
-   
-
+public interface TeamNotificationRepository {
+     public List<TeamNotification> getTeam();
+//    public TeamNotification getTeampById( int id);
 }

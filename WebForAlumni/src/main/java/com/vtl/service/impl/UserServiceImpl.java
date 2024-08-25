@@ -6,6 +6,7 @@ package com.vtl.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+
 import com.vtl.pojo.User;
 import com.vtl.repository.UserRepository;
 import com.vtl.service.UserService;
@@ -102,6 +103,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(int id) {
         this.userRepo.deleteUser(id);
+    }
+    
+    
+    @Override
+    public void updateUser(User u) {
+        
+        if (!u.getFile().isEmpty()) {
+            try {
+                Map res = this.cloudinary.uploader().upload(u.getFile().getBytes(),
+                            ObjectUtils.asMap("resource_type", "auto"));
+                
+                u.setAvatar(res.get("secure_url").toString());
+                u.setCover(res.get("secure_url").toString());
+            } catch (IOException ex) {
+                Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+       this.userRepo.updateUser(u);
     }
 
 }

@@ -4,17 +4,13 @@
  */
 package com.vtl.repository;
 
-
-import com.vtl.pojo.TeamUser;
+import com.vtl.pojo.Department;
 import java.util.List;
-
 
 /**
  *
  * @author Thuy Linh
  */
-public interface TeamUserRepository {
-    public List<TeamUser> getTeamUser();
-   
-
+public interface DepartmentRepository {
+     public List<Department> getDepartment();
 }

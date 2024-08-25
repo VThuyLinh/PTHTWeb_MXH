@@ -35,9 +35,12 @@ public class HibernateUtils {
         conf.addAnnotatedClass(User.class);
         conf.addAnnotatedClass(Comment.class);
         conf.addAnnotatedClass(Department.class);
-        conf.addAnnotatedClass(Image.class);
         conf.addAnnotatedClass(Major.class);
         conf.addAnnotatedClass(Notification.class);
+        conf.addAnnotatedClass(Topic.class);
+        conf.addAnnotatedClass(GroupUser.class);
+        conf.addAnnotatedClass(Group1.class);
+        conf.addAnnotatedClass(GroupNotification.class);
         
         conf.setProperties(props);
         ServiceRegistry serviceRegistry= new StandardServiceRegistryBuilder().applySettings(conf.getProperties()).build();

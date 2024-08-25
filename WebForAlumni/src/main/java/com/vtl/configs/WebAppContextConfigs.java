@@ -4,6 +4,7 @@
  */
 package com.vtl.configs;
 
+import com.vtl.formatter.DepartmentFormatter;
 import com.vtl.formatter.MajorFormatter;
 import com.vtl.formatter.TopicFormatter;
 import com.vtl.formatter.UserFormatter;
@@ -96,6 +97,7 @@ public class WebAppContextConfigs implements WebMvcConfigurer {
        registry.addFormatter(new MajorFormatter());
        registry.addFormatter(new UserFormatter());
        registry.addFormatter(new TopicFormatter());
+       registry.addFormatter(new DepartmentFormatter());
     }
     
     

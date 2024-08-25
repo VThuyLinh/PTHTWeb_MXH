@@ -7,6 +7,7 @@ package com.vtl.pojo;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,7 +47,7 @@ public class Major implements Serializable {
     @JoinColumn(name = "department_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Department departmentId;
-    @OneToMany(mappedBy = "majorId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "majorId")
     private Set<Post> postSet;
     @OneToMany(mappedBy = "major")
     private Set<User> userSet;

@@ -5,7 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<footer class="footer">
+<footer class="footer" style="margin-top: 50px">
     <div class="container">
         <div class="row">
             <div class="col-lg-7 col-md-12 col-12">

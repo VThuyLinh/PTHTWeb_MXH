@@ -54,7 +54,7 @@ function deleteComment(endpoint, commentId) {
 }
 
 function deleteNotification(endpoint, noId) {
-    if (confirm("Bạn chắc chắn xóa comment không?") === true) {
+    if (confirm("Bạn chắc chắn xóa thông báo này không?") === true) {
         fetch(endpoint, {
             method: "delete"
         }).then(res => {

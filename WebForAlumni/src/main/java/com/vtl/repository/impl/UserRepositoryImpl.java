@@ -145,4 +145,12 @@ public class UserRepositoryImpl implements UserRepository {
         User u = this.getInfoUserById(id);
         s.delete(u);
     }
+    
+    
+    @Override
+    public void updateUser(User u) {
+        Session s = this.factory.getObject().getCurrentSession();
+        if (u.getId() != null) 
+            s.update(u);
+    }
 }
