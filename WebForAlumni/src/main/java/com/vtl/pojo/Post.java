@@ -6,6 +6,7 @@ package com.vtl.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -15,33 +16,31 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author Thuy Linh
+ * @author tlinh
  */
 @Entity
 @Table(name = "post")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Post.findAll", query = "SELECT p FROM Post p"),
     @NamedQuery(name = "Post.findById", query = "SELECT p FROM Post p WHERE p.id = :id"),
-    @NamedQuery(name = "Post.findByContent", query = "SELECT p FROM Post p WHERE p.content = :content"),
-    @NamedQuery(name = "Post.findByLikeHahaHeart", query = "SELECT p FROM Post p WHERE p.likeHahaHeart = :likeHahaHeart"),
     @NamedQuery(name = "Post.findByCreatedDate", query = "SELECT p FROM Post p WHERE p.createdDate = :createdDate"),
-    @NamedQuery(name = "Post.findByActive", query = "SELECT p FROM Post p WHERE p.active = :active"),
-    @NamedQuery(name = "Post.findByImage", query = "SELECT p FROM Post p WHERE p.image = :image")})
+    @NamedQuery(name = "Post.findByImage", query = "SELECT p FROM Post p WHERE p.image = :image"),
+    @NamedQuery(name = "Post.findByActive", query = "SELECT p FROM Post p WHERE p.active = :active")})
 public class Post implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,46 +51,39 @@ public class Post implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 1000)
+    @Lob
+    @Size(min = 1, max = 65535)
     @Column(name = "content")
     private String content;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "like_haha_heart")
-    private int likeHahaHeart;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
     @Column(name = "created_date")
-    private String createdDate;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "active")
-    private boolean active;
+    @Temporal(TemporalType.DATE)
+    private Date createdDate;
     @Size(max = 1000)
     @Column(name = "image")
     private String image;
-    @JoinColumn(name = "major_id", referencedColumnName = "id")
+    @Column(name = "active")
+    private Boolean active;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "postId")
+    @JsonIgnore
+    private Set<LikeHaha> likeHahaSet;
+    @JoinColumn(name = "major_idforPost", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonIgnore
-    private Major majorId;
-    @JoinColumn(name = "topic_id", referencedColumnName = "id")
+    private Major majoridforPost;
+    @JoinColumn(name = "topic_idforPost", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonIgnore
-    private Topic topicId;
-    @JoinColumn(name = "userId", referencedColumnName = "id")
-    @ManyToOne
-    @JsonIgnore
-    private User userId;
+    private Topic topicidforPost;
+    @JoinColumn(name = "user_idforPost", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private User useridforPost;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "postId")
     @JsonIgnore
     private Set<Comment> commentSet;
-    
-    
-    
+
     @Transient
     private MultipartFile file;
-
+    
     public Post() {
     }
 
@@ -99,12 +91,10 @@ public class Post implements Serializable {
         this.id = id;
     }
 
-    public Post(Integer id, String content, int likeHahaHeart, String createdDate, boolean active) {
+    public Post(Integer id, String content, Date createdDate) {
         this.id = id;
         this.content = content;
-        this.likeHahaHeart = likeHahaHeart;
         this.createdDate = createdDate;
-        this.active = active;
     }
 
     public Integer getId() {
@@ -123,28 +113,12 @@ public class Post implements Serializable {
         this.content = content;
     }
 
-    public int getLikeHahaHeart() {
-        return likeHahaHeart;
-    }
-
-    public void setLikeHahaHeart(int likeHahaHeart) {
-        this.likeHahaHeart = likeHahaHeart;
-    }
-
-    public String getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(String createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
-    }
-
-    public boolean getActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
     }
 
     public String getImage() {
@@ -155,31 +129,46 @@ public class Post implements Serializable {
         this.image = image;
     }
 
-    public Major getMajorId() {
-        return majorId;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setMajorId(Major majorId) {
-        this.majorId = majorId;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
-    public Topic getTopicId() {
-        return topicId;
+    public Set<LikeHaha> getLikeHahaSet() {
+        return likeHahaSet;
     }
 
-    public void setTopicId(Topic topicId) {
-        this.topicId = topicId;
+    public void setLikeHahaSet(Set<LikeHaha> likeHahaSet) {
+        this.likeHahaSet = likeHahaSet;
     }
 
-    public User getUserId() {
-        return userId;
+    public Major getMajoridforPost() {
+        return majoridforPost;
     }
 
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setMajoridforPost(Major majoridforPost) {
+        this.majoridforPost = majoridforPost;
     }
 
-    @XmlTransient
+    public Topic getTopicidforPost() {
+        return topicidforPost;
+    }
+
+    public void setTopicidforPost(Topic topicidforPost) {
+        this.topicidforPost = topicidforPost;
+    }
+
+    public User getUseridforPost() {
+        return useridforPost;
+    }
+
+    public void setUseridforPost(User useridforPost) {
+        this.useridforPost = useridforPost;
+    }
+
     public Set<Comment> getCommentSet() {
         return commentSet;
     }
@@ -226,6 +215,5 @@ public class Post implements Serializable {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
-    
     
 }

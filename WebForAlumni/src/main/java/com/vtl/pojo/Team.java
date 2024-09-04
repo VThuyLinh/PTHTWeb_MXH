@@ -19,16 +19,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Thuy Linh
+ * @author tlinh
  */
 @Entity
 @Table(name = "team")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Team.findAll", query = "SELECT t FROM Team t"),
     @NamedQuery(name = "Team.findById", query = "SELECT t FROM Team t WHERE t.id = :id"),
@@ -48,14 +45,14 @@ public class Team implements Serializable {
     @Size(min = 1, max = 200)
     @Column(name = "name")
     private String name;
-    @Size(max = 100)
+    @Size(max = 45)
     @Column(name = "created_date")
     private String createdDate;
     @Column(name = "active")
     private Boolean active;
-    @OneToMany(mappedBy = "groupId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teamId")
     private Set<TeamUser> teamUserSet;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "groupId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "teamId")
     private Set<TeamNotification> teamNotificationSet;
 
     public Team() {
@@ -102,7 +99,6 @@ public class Team implements Serializable {
         this.active = active;
     }
 
-    @XmlTransient
     public Set<TeamUser> getTeamUserSet() {
         return teamUserSet;
     }
@@ -111,7 +107,6 @@ public class Team implements Serializable {
         this.teamUserSet = teamUserSet;
     }
 
-    @XmlTransient
     public Set<TeamNotification> getTeamNotificationSet() {
         return teamNotificationSet;
     }

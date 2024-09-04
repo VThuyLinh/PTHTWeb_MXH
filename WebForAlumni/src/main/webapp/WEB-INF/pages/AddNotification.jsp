@@ -18,54 +18,39 @@
 </c:if>
 <f:form action="${action}" method="post" enctype="multipart/form-data"  modelAttribute="addNotification">
     <h1>${ex}</h1>
-    <div class="mb-3 mt-3">
-        <label for="topic" class="form-label">Topic</label>
-        <f:select  class="form-select" path="topicId" id="topicId" name="topicId">
-            <c:forEach items="${topic}" var="t">
-                <c:choose>
-                    <c:when test="${t.id == post.topicId.id}">
-                        <option value="${t.id}" selected>${t.name}</option>
-                    </c:when>
-                    <c:otherwise>
-                        <option value="${t.id}">${t.name}</option>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-        </f:select>
-
-    </div>
+   
     <div class="mb-3">
         <label for="content" class="form-label">Nội dung</label>
         <f:input path="content" onblur="getDate()" type="text" class="form-control" id="content" placeholder="${post.content}" name="content" />
     </div>
     
-    <div class="mb-3" hidden>
-        <f:label path="createdDate" type="text" class="form-control" id="createdDate" name="createdDate"/>
+    <div class="mb-3">
+        <label for="day" class="form-label">Ngày</label>
+        <f:input path="day" type="date" class="form-control" id="day" name="day" />
+    </div>
+    <div class="mb-3">
+        <label for="time" class="form-label">Giờ</label>
+        <f:input path="time" type="time" class="form-control" id="time" name="time" />
+    </div>
+    <div class="mb-3">
+        <label for="address" class="form-label">Địa chỉ</label>
+        <f:input path="address" type="text" class="form-control" id="address" name="address" />
+    </div>
+    <div class="mb-3" hidden="true">
+        <label for="image" class="form-label">Ảnh</label>
+        <f:input path="image" type="text" class="form-control" id="image" name="image" />
     </div>
 
-
-    <div class="mb-3 mt-3">
-        <label for="majorId" class="form-label">Ngành để tìm bài viết</label>
-        <f:select  class="form-select" path="majorId" id="majorId" name="majorId">
-            <c:forEach items="${major}" var="m">
-                <c:choose>
-                    <c:when test="${m.id == post.majorId.id}">
-                        <option value="${m.id}" selected>${m.name}</option>
-                    </c:when>
-                    <c:otherwise>
-                        <option value="${m.id}">${m.name}</option>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-        </f:select>
+     <div class="mb-3">
+        <label for="createdDate" class="form-label">Ngày tạo</label>
+        <f:input path="createdDate" type="date" class="form-control" id="createdDate" name="createdDate" />
     </div>
-    
-
-
+       <f:hidden path="userId" id="userId" name="userId" value='1' />
     <div class="mb-3 mt-3">
         <label for="file" class="form-label">Ảnh</label>
         <f:input path="file" type="file" accept=".jpg,.png" class="form-control" id="file" name="file" />
 
     </div>
+        
     <button type="submit" class="btn btn-primary">Thêm bài</button>
 </f:form>

@@ -21,6 +21,8 @@
     <class>com.vtl.pojo.Team</class>
     <class>com.vtl.pojo.TeamNotification</class>
     <class>com.vtl.pojo.TeamUser</class>
+    <class>com.vtl.pojo.Tlinh</class>
+    <class>com.vtl.pojo.LikeHaha</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/socialnetwork?zeroDateTimeBehavior=CONVERT_TO_NULL"/>

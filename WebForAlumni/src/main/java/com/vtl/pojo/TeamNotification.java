@@ -8,23 +8,22 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Thuy Linh
+ * @author tlinh
  */
 @Entity
 @Table(name = "team_notification")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TeamNotification.findAll", query = "SELECT t FROM TeamNotification t"),
     @NamedQuery(name = "TeamNotification.findById", query = "SELECT t FROM TeamNotification t WHERE t.id = :id"),
@@ -33,19 +32,19 @@ public class TeamNotification implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
-    @Size(max = 40)
+    @Size(max = 45)
     @Column(name = "created_date")
     private String createdDate;
-    @JoinColumn(name = "no_id", referencedColumnName = "id")
+    @JoinColumn(name = "notification_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Notification noId;
-    @JoinColumn(name = "group_id", referencedColumnName = "id")
+    private Notification notificationId;
+    @JoinColumn(name = "team_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Team groupId;
+    private Team teamId;
 
     public TeamNotification() {
     }
@@ -70,20 +69,20 @@ public class TeamNotification implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public Notification getNoId() {
-        return noId;
+    public Notification getNotificationId() {
+        return notificationId;
     }
 
-    public void setNoId(Notification noId) {
-        this.noId = noId;
+    public void setNotificationId(Notification notificationId) {
+        this.notificationId = notificationId;
     }
 
-    public Team getGroupId() {
-        return groupId;
+    public Team getTeamId() {
+        return teamId;
     }
 
-    public void setGroupId(Team groupId) {
-        this.groupId = groupId;
+    public void setTeamId(Team teamId) {
+        this.teamId = teamId;
     }
 
     @Override

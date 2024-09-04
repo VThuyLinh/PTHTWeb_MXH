@@ -20,16 +20,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Thuy Linh
+ * @author tlinh
  */
 @Entity
 @Table(name = "topic")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Topic.findAll", query = "SELECT t FROM Topic t"),
     @NamedQuery(name = "Topic.findById", query = "SELECT t FROM Topic t WHERE t.id = :id"),
@@ -51,7 +48,7 @@ public class Topic implements Serializable {
     @Size(max = 500)
     @Column(name = "information")
     private String information;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "topicId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "topicidforPost")
     @JsonIgnore
     private Set<Post> postSet;
 
@@ -91,7 +88,6 @@ public class Topic implements Serializable {
         this.information = information;
     }
 
-    @XmlTransient
     public Set<Post> getPostSet() {
         return postSet;
     }

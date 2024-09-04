@@ -25,5 +25,15 @@ public class MajorServiceImpl implements MajorService {
     public List<Major> getMajor() {
         return this.mr.getMajor();
     }
+
+    @Override
+    public Major getMajorById(int id) {
+        return this.mr.getMajorById(id);
+    }
+
+    @Override
+    public Major getMajorByName(String name) {
+       return this.mr.getMajorByName(name);
+    }
     
 }

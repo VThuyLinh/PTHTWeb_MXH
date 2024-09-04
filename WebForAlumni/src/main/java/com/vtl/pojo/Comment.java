@@ -4,12 +4,13 @@
  */
 package com.vtl.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
@@ -19,17 +20,17 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author Thuy Linh
+ * @author tlinh
  */
 @Entity
 @Table(name = "comment")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Comment.findAll", query = "SELECT c FROM Comment c"),
     @NamedQuery(name = "Comment.findById", query = "SELECT c FROM Comment c WHERE c.id = :id"),
@@ -39,8 +40,8 @@ public class Comment implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
@@ -49,21 +50,25 @@ public class Comment implements Serializable {
     @Size(min = 1, max = 65535)
     @Column(name = "content")
     private String content;
+    @Column(name = "active")
+    private Boolean active;
+    @Size(max = 1000)
+    @Column(name = "image")
+    private String image;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "active")
-    private boolean active;
     @Column(name = "created_date")
-    @Temporal(TemporalType.TIMESTAMP)
+    @Temporal(TemporalType.DATE)
     private Date createdDate;
     @JoinColumn(name = "post_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonIgnore
     private Post postId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonIgnore
     private User userId;
+    
+    @Transient
+    private MultipartFile file;
 
     public Comment() {
     }
@@ -72,10 +77,10 @@ public class Comment implements Serializable {
         this.id = id;
     }
 
-    public Comment(Integer id, String content, boolean active) {
+    public Comment(Integer id, String content, Date createdDate) {
         this.id = id;
         this.content = content;
-        this.active = active;
+        this.createdDate = createdDate;
     }
 
     public Integer getId() {
@@ -94,12 +99,20 @@ public class Comment implements Serializable {
         this.content = content;
     }
 
-    public boolean getActive() {
+    public Boolean getActive() {
         return active;
     }
 
-    public void setActive(boolean active) {
+    public void setActive(Boolean active) {
         this.active = active;
+    }
+    
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Date getCreatedDate() {
@@ -150,5 +163,20 @@ public class Comment implements Serializable {
     public String toString() {
         return "com.vtl.pojo.Comment[ id=" + id + " ]";
     }
+    
+    /**
+     * @return the file
+     */
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    /**
+     * @param file the file to set
+     */
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+    
     
 }

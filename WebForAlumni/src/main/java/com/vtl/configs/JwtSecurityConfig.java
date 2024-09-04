@@ -66,9 +66,13 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests().antMatchers("/api/Post/").permitAll();
         http.authorizeRequests().antMatchers("/api/Comment/**").permitAll();
         http.authorizeRequests().antMatchers("/api/Notification/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/Users/**").permitAll();
         http.authorizeRequests().antMatchers("/api/Topic/**").permitAll();
-        http.authorizeRequests().antMatchers("/api/PostActive/**").permitAll();
+        http.authorizeRequests().antMatchers("/api/Major/**").permitAll();
+         http.authorizeRequests().antMatchers("/api/Account/**").permitAll();
+         http.authorizeRequests().antMatchers("/api/AddPost/**").permitAll();
+          http.authorizeRequests().antMatchers("/api/AddComment/**").permitAll();
+           http.authorizeRequests().antMatchers("/api/LikeHaha/**").permitAll();
+           http.authorizeRequests().antMatchers("/api/Like/**").permitAll();
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/**/Comment/").permitAll();
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()

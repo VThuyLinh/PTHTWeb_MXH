@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import APIs, { endpoints } from "../config/APIs";
-import { Button, Card, Spinner } from "react-bootstrap";
+import { Button, Card, Col, Image, Row, Spinner } from "react-bootstrap";
 import { useSearchParams } from "react-router-dom";
 
 
@@ -55,25 +55,23 @@ const Post=() =>{
 
 
     if(load===true || post===null)
-        return <Spinner animation="border" role="status"><span className="visually-hidden">Loading...</span></Spinner>
+        return <Spinner animation="border" role="status" variant="warning"></Spinner>
 
     return (
         <>
-            {post.map( p=>  
-                <div key={p.id} style={{marginLeft:250, marginBottom:20, marginTop:20}}>
-                <Card style={{ width: '50rem' }}>
-                <Card.Img variant="top" src={p.image}/>
+            {post.map( p=>
+                <Card style={{height:'520px', width:'700px', marginTop:'30px',marginBottom:'30px',borderColor: 'black', marginLeft:'18rem'}}>
                 <Card.Body>
-                    <Card.Title>{p.topic}</Card.Title>
-                    <Card.Text>{p.content}</Card.Text>
-                    <Button variant="primary">Xem thêm</Button>
+                    <Image src={p.image} style={{height:'350px', width:'650px', marginLeft:'10px'}}/>
+                    <Card.Text style={{height:'60px', marginTop:'10px'}}>{p.content}</Card.Text>
+                    <Button style={{marginLeft:'500px', width:'120px', backgroundColor:"#274038", borderColor:"#274038"}} href={`/Post/${p.id}`}>Xem thêm</Button>
                 </Card.Body>
-             </Card>
-             </div>
-             )}
+               
+             </Card>)}
              
-             <div className="mt-2 text-center">
-                <Button onClick={loadPage} variant="primary">Trang tiếp</Button>
+             
+             <div className="mt-2 text-center" >
+                <Button onClick={loadPage} style={{marginTop:'60px',width:'200px', backgroundColor:"#87DF2C", borderColor:"white", fontSize:'18px'}} >Xem tiếp &#128301;</Button>
              </div>
         </>
     );

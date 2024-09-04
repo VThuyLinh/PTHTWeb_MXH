@@ -34,7 +34,7 @@ public class PostRepositoryImpl implements PostRepository {
     @Autowired
     private LocalSessionFactoryBean factory;
 
-    private static final int PAGE_SIZE = 2;
+    private static final int PAGE_SIZE = 6;
 
     @Override
     public List<Post> getPost(Map<String, String> params) 
@@ -52,23 +52,29 @@ public class PostRepositoryImpl implements PostRepository {
                 Predicate p1 = b.like(root.get("content"), String.format("%%%s%%", kw));
                 predicates.add(p1);
             }
+            
+            String topic = params.get("topic");
+            if (topic != null && !topic.isEmpty()) {
+                Predicate p2 = b.equal(root.get("topicidforPost"),Integer.parseInt(topic));
+                predicates.add(p2);
+            }
 
             String fromDate = params.get("fromDate");
             if (fromDate != null && !fromDate.isEmpty()) {
-                Predicate p2 = b.greaterThanOrEqualTo(root.get("createdDate"), Date.valueOf(fromDate));
-                predicates.add(p2);
+                Predicate p3 = b.greaterThanOrEqualTo(root.get("createdDate"), Date.valueOf(fromDate));
+                predicates.add(p3);
             }
 
             String toDate = params.get("toDate");
             if (toDate != null && !toDate.isEmpty()) {
-                Predicate p3 = b.lessThanOrEqualTo(root.get("createdDate"), Date.valueOf(toDate));
-                predicates.add(p3);
+                Predicate p4 = b.lessThanOrEqualTo(root.get("createdDate"), Date.valueOf(toDate));
+                predicates.add(p4);
             }
 
             String major = params.get("major");
             if (major != null && !major.isEmpty()) {
-                Predicate p4 = b.equal(root.get("majorId"),Integer.parseInt(major));
-                predicates.add(p4);
+                Predicate p5 = b.equal(root.get("majoridforPost"),Integer.parseInt(major));
+                predicates.add(p5);
             }
 
             q.where(predicates.toArray(Predicate[]::new));
@@ -131,6 +137,25 @@ public class PostRepositoryImpl implements PostRepository {
             return query.getResultList();
         }
 
+    
+    @Override
+    public List<Post> getPostByUserId(int userId) {
+        Session s= this.factory.getObject().getCurrentSession();
+           CriteriaBuilder b= s.getCriteriaBuilder();
+            CriteriaQuery<Post> q= b.createQuery(Post.class);
+            Root <Post> rP= q.from(Post.class);
+            q.where(b.equal(rP.get("useridforPost"), userId));
+            Query query= s.createQuery(q);
+            
+            return query.getResultList();
+    }
 
-
+    
+    @Override
+    public Post addPost (Post post) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.save(post);
+        
+        return post;
+    }
 }

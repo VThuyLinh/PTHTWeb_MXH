@@ -8,6 +8,9 @@ import com.vtl.pojo.Major;
 import com.vtl.repository.MajorRepository;
 import java.util.List;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import org.hibernate.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
@@ -36,4 +39,31 @@ public class MajorRepositoryImpl implements MajorRepository {
              return q.getResultList();
         
     }
+     @Override
+    public Major getMajorById(int id)
+    {
+        Session s = this.factory.getObject().getCurrentSession();
+        
+         CriteriaBuilder b = s.getCriteriaBuilder();
+            CriteriaQuery<Major> q = b.createQuery(Major.class);
+
+            Root rM = q.from(Major.class);
+
+            q.where(b.equal(rM.get("id"),id));
+
+            q.multiselect(rM.get("id"), rM.get("name"));
+            Query query = s.createQuery(q);
+            return (Major) query.getSingleResult();
+        
+    }
+    
+    @Override
+    public Major getMajorByName(String name)
+    {
+        Session s = this.factory.getObject().getCurrentSession();
+        
+        return s.get(Major.class, name);
+        
+    }
+
 }

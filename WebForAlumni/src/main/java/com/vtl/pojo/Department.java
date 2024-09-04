@@ -13,26 +13,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Thuy Linh
+ * @author tlinh
  */
 @Entity
 @Table(name = "department")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Department.findAll", query = "SELECT d FROM Department d"),
-    @NamedQuery(name = "Department.findById", query = "SELECT d FROM Department d WHERE d.id = :id"),
-    @NamedQuery(name = "Department.findByName", query = "SELECT d FROM Department d WHERE d.name = :name")})
+    @NamedQuery(name = "Department.findById", query = "SELECT d FROM Department d WHERE d.id = :id")})
 public class Department implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,13 +40,12 @@ public class Department implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 45)
+    @Lob
+    @Size(min = 1, max = 65535)
     @Column(name = "name")
     private String name;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "departmentId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "deparmentId")
     private Set<Major> majorSet;
-    @OneToMany(mappedBy = "department")
-    private Set<User> userSet;
 
     public Department() {
     }
@@ -79,22 +75,12 @@ public class Department implements Serializable {
         this.name = name;
     }
 
-    @XmlTransient
     public Set<Major> getMajorSet() {
         return majorSet;
     }
 
     public void setMajorSet(Set<Major> majorSet) {
         this.majorSet = majorSet;
-    }
-
-    @XmlTransient
-    public Set<User> getUserSet() {
-        return userSet;
-    }
-
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
     }
 
     @Override

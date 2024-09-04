@@ -6,10 +6,19 @@ const BASE_URL = 'http://localhost:8080/WebForAlumni/api/'
 export const endpoints = {
     'topic':'/Topic',
     'post': '/Post',
+    'major':'/Major',
+    'addPost':'/AddPost',
     'login': '/login',
     'current-user': '/current-user',
-    'account': '/Account',
+    'account': (userId) => `/Account/${userId}/`,
+    'Post': (postId) => `/Post/${postId}/`,
     'notification':'/Notification',
+    'register':'/Users',
+    'comment':(postId) =>`/Comment/${postId}/`,
+    'addCMT':(postId) => `/AddComment/${postId}`,
+    'like':(postId)=> `/LikeHaha/${postId}`,
+    'likeAll':(postId)=> `/Like/${postId}`
+
    
 }
 

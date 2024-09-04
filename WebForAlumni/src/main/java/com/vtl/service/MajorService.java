@@ -13,4 +13,6 @@ import java.util.List;
  */
 public interface MajorService {
     List<Major> getMajor();
+    public Major getMajorById(int id);
+    public Major getMajorByName(String name);
 }

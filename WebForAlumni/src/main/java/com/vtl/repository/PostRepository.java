@@ -16,7 +16,9 @@ public interface PostRepository {
     public List<Post> getPost(Map<String, String> params);
     public void addOrUpdatePost(Post p);
     public Post getPostById(int id);
+    Post addPost(Post post);
     public void deletePost(int id);
     public List<Post> getPostActive(); 
+    public List<Post> getPostByUserId(int userId);
 
 }

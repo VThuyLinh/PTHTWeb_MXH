@@ -61,12 +61,12 @@ public class NotificationServiceImpl implements NotificationService {
                 Map res = this.cloudinary.uploader().upload(n.getFile().getBytes(),
                             ObjectUtils.asMap("resource_type", "auto"));
                 
-                n.setCover(res.get("secure_url").toString());
+                n.setImage(res.get("secure_url").toString());
             } catch (IOException ex) {
-                Logger.getLogger(PostServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(NotificationServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-      this.nr.addOrUpdateNo(n);
+        this.nr.addOrUpdateNo(n);
         
     }
     

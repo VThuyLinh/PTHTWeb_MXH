@@ -4,6 +4,7 @@
  */
 package com.vtl.repository;
 
+import com.vtl.pojo.Post;
 import com.vtl.pojo.User;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import java.util.List;
     public User getInfoUserById(int id);
      public void deleteUser(int id);
       public void updateUser(User u);
+      public User getUserByUsernames(String username);
  }
 
 

@@ -82,7 +82,7 @@ public class CommentRepositoryImpl implements CommentRepository {
     
     
     @Override
-    public List<Comment> getListCommentById(int id) {
+    public List<Comment> getListCommentByPostId(int postId) {
 
         Session s= this.factory.getObject().getCurrentSession();
 
@@ -92,7 +92,7 @@ public class CommentRepositoryImpl implements CommentRepository {
             q.select(root);
             List<Predicate> predicates = new ArrayList<>();
 
-            Predicate p1 = b.equal(root.get("postId"), id);
+            Predicate p1 = b.equal(root.get("postId"), postId);
             predicates.add(p1);
 
             q.where(predicates.toArray(Predicate[]::new));
@@ -102,5 +102,13 @@ public class CommentRepositoryImpl implements CommentRepository {
 
         return query.getResultList();
         }
+    
+    @Override
+    public Comment addComment (Comment cmt) {
+        Session s = this.factory.getObject().getCurrentSession();
+        s.save(cmt);
+        
+        return cmt;
+    }
     
 }

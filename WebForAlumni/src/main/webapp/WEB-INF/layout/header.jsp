@@ -28,15 +28,7 @@
                     <a class="nav-link" href="<c:url value="/Notification"/>">Thông báo</a>
                 </li>
                 
-                <li class="nav-item">
-                    <a class="nav-link" href="<c:url value="/login"/>">Đăng nhập</a>
-                </li>
-                 <li class="nav-item">
-                    <a class="nav-link" href="<c:url value="/register"/>">Đăng kí</a>
-                </li>
-                
-                
-                
+         
                 <s:authorize access="hasAnyRole('STUDENT', 'ADMIN')">
                     <li class="nav-item">
                         <a class="nav-link" href="<c:url value="/" />">

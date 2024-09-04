@@ -29,18 +29,21 @@
 </div>
 
 
-
-<div class="row ">
-    <div>
+<div>
          <a class="btn btn-info m-1" href="<c:url value="/AddNotification" />">Thêm bài</a>
     </div>
+<div class="row " style="margin-left: 50px">
+    
     <c:forEach items="${notification}" var="n">
 
-        <div class="card col-sm-3 mt-3 mb-3" style="width:420px; border-color: black; margin-left: 10px">
-            <img class="card-img-top mt-2" style="width:395px; height:250px"src="${n.cover}" alt="Card image">
+        <div class="card col-sm-2 mt-3 mb-3" style="width:500px; border-color: black; margin-left: 60px">
+            <img class="card-img-top mt-2" style="width:395px; height:250px"src="${n.image}" alt="Card image">
             <div class="card-body">
-                <h6 class="card-title" id="abc123">Địa điểm: ${n.address}</h5>
-                    <p class="card-text">${n.content}</p>
+                <h3 class="card-text" style="height: 120px; text-align: center; align-items: center">${n.content}</h3>
+                <h6 style="height: 40px" class="card-title" id="abc123">Địa điểm: ${n.address}</h6>
+                <h6 style="height: 20px" class="card-title" id="abc123">Thời gian: ${n.time}</h6>
+                <h6 style="height: 20px" class="card-title" id="abc123">Ngày ${n.day}</h6>
+                    
 
 
                     <div class="input-group" style="margin-left: 14rem">

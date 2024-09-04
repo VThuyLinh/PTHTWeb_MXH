@@ -7,6 +7,7 @@ package com.vtl.service;
 import com.vtl.pojo.Comment;
 import java.util.List;
 import java.util.Map;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -16,5 +17,6 @@ public interface CommentService {
     public List<Comment> getComment(Map<String, String> params);
     public void deleteComment(int id);
     public Comment getCommentById(int id);
-    public List<Comment> getListCommentById(int id);
+    public List<Comment> getListCommentByPostId(int postId);
+    public Comment addComment(Map<String, String> params, MultipartFile image);
 }

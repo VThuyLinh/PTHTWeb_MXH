@@ -4,6 +4,7 @@
  */
 package com.vtl.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -21,16 +22,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author Thuy Linh
+ * @author tlinh
  */
 @Entity
 @Table(name = "major")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Major.findAll", query = "SELECT m FROM Major m"),
     @NamedQuery(name = "Major.findById", query = "SELECT m FROM Major m WHERE m.id = :id"),
@@ -48,13 +46,13 @@ public class Major implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "name")
     private String name;
-    @JoinColumn(name = "department_id", referencedColumnName = "id")
+    @JoinColumn(name = "deparment_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Department departmentId;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "majorId")
+    @JsonIgnore
+    private Department deparmentId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "majoridforPost")
+    @JsonIgnore
     private Set<Post> postSet;
-    @OneToMany(mappedBy = "major")
-    private Set<User> userSet;
 
     public Major() {
     }
@@ -84,30 +82,20 @@ public class Major implements Serializable {
         this.name = name;
     }
 
-    public Department getDepartmentId() {
-        return departmentId;
+    public Department getDeparmentId() {
+        return deparmentId;
     }
 
-    public void setDepartmentId(Department departmentId) {
-        this.departmentId = departmentId;
+    public void setDeparmentId(Department deparmentId) {
+        this.deparmentId = deparmentId;
     }
 
-    @XmlTransient
     public Set<Post> getPostSet() {
         return postSet;
     }
 
     public void setPostSet(Set<Post> postSet) {
         this.postSet = postSet;
-    }
-
-    @XmlTransient
-    public Set<User> getUserSet() {
-        return userSet;
-    }
-
-    public void setUserSet(Set<User> userSet) {
-        this.userSet = userSet;
     }
 
     @Override

@@ -57,7 +57,7 @@ public class StatsRepositoryImpl implements StatsRepository {
             CriteriaQuery<Object[]> q= b.createQuery(Object[].class);
             Root <User> rU= q.from(User.class);
             Root <Post> rP= q.from(Post.class);
-            q.where(b.equal(rU.get("id"), rP.get("userPostId")));
+            q.where(b.equal(rU.get("id"), rP.get("useridforPost")));
             q.multiselect(b.count(rU.get("id")),rU.get("username"));
             q.groupBy(rU.get("username"));
             Query query= s.createQuery(q);

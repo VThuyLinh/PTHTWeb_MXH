@@ -14,4 +14,6 @@ import java.util.List;
 
 public interface MajorRepository {
      List<Major> getMajor();
+     public Major getMajorById(int id);
+     public Major getMajorByName(String name);
 }

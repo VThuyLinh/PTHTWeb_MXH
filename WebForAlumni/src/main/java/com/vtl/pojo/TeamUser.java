@@ -8,23 +8,22 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Thuy Linh
+ * @author tlinh
  */
 @Entity
 @Table(name = "team_user")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "TeamUser.findAll", query = "SELECT t FROM TeamUser t"),
     @NamedQuery(name = "TeamUser.findById", query = "SELECT t FROM TeamUser t WHERE t.id = :id"),
@@ -33,18 +32,18 @@ public class TeamUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
-    @Size(max = 100)
+    @Size(max = 45)
     @Column(name = "created_date")
     private String createdDate;
-    @JoinColumn(name = "group_id", referencedColumnName = "id")
-    @ManyToOne
-    private Team groupId;
+    @JoinColumn(name = "team_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private Team teamId;
     @JoinColumn(name = "user_id", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(optional = false)
     private User userId;
 
     public TeamUser() {
@@ -70,12 +69,12 @@ public class TeamUser implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public Team getGroupId() {
-        return groupId;
+    public Team getTeamId() {
+        return teamId;
     }
 
-    public void setGroupId(Team groupId) {
-        this.groupId = groupId;
+    public void setTeamId(Team teamId) {
+        this.teamId = teamId;
     }
 
     public User getUserId() {

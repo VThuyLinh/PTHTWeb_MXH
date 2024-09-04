@@ -7,6 +7,7 @@ package com.vtl.service;
 import com.vtl.pojo.Post;
 import java.util.List;
 import java.util.Map;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -18,6 +19,8 @@ public interface PostService {
     public Post getPostById(int id);
     public void deletePost(int id);
     public List<Post> getPostActive() ;
+    public List<Post> getPostByUserId(int userId);
+    public Post addPost(Map<String, String> params, MultipartFile image);
 
 
 }

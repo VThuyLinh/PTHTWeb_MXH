@@ -51,6 +51,10 @@
         <put-attribute name="title" value="Notification" />
         <put-attribute name="content" value="/WEB-INF/pages/NotificationDetail.jsp" />
     </definition>
+    <definition name="addNotification" extends="basePage">
+        <put-attribute name="title" value="AddNotification" />
+        <put-attribute name="content" value="/WEB-INF/pages/AddNotification.jsp" />
+    </definition>
     <definition name="addPost" extends="basePage">
         <put-attribute name="title" value="AddOrUpdate" />
         <put-attribute name="content" value="/WEB-INF/pages/AddPost.jsp" />

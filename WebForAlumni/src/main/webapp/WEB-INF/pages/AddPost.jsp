@@ -19,11 +19,11 @@
 <f:form action="${action}" method="post" enctype="multipart/form-data"  modelAttribute="addPost">
     <h1>${ex}</h1>
     <div class="mb-3 mt-3">
-        <label for="topic" class="form-label">Topic</label>
-        <f:select  class="form-select" path="topicId" id="topicId" name="topicId">
+        <label for="topicidforPost" class="form-label">Topic</label>
+        <f:select  class="form-select" path="topicidforPost" id="topicidforPost" name="topicidforPost">
             <c:forEach items="${topic}" var="t">
                 <c:choose>
-                    <c:when test="${t.id == post.topicId.id}">
+                    <c:when test="${t.id == post.topicidforPost.id}">
                         <option value="${t.id}" selected>${t.name}</option>
                     </c:when>
                     <c:otherwise>
@@ -38,18 +38,22 @@
         <label for="content" class="form-label">Nội dung</label>
         <f:input path="content" onblur="getDate()" type="text" class="form-control" id="content" placeholder="${post.content}" name="content" />
     </div>
-    
+    <div class="mb-3">
+        <label for="createdDate">Start date:</label>
+        <input type="date" id="createdDate" name="createdDate" value="2024-09-02" />
+    </div>
+
     <div class="mb-3" hidden>
         <f:label path="createdDate" type="text" class="form-control" id="createdDate" name="createdDate"/>
     </div>
 
 
     <div class="mb-3 mt-3">
-        <label for="majorId" class="form-label">Ngành để tìm bài viết</label>
-        <f:select  class="form-select" path="majorId" id="majorId" name="majorId">
+        <label for="majoridforPost" class="form-label">Ngành để tìm bài viết</label>
+        <f:select  class="form-select" path="majoridforPost" id="majoridforPost" name="majoridforPost">
             <c:forEach items="${major}" var="m">
                 <c:choose>
-                    <c:when test="${m.id == post.majorId.id}">
+                    <c:when test="${m.id == post.majoridforPost.id}">
                         <option value="${m.id}" selected>${m.name}</option>
                     </c:when>
                     <c:otherwise>
@@ -59,8 +63,8 @@
             </c:forEach>
         </f:select>
     </div>
-    
 
+    <f:hidden path="useridforPost" id="useridforPost" name="useridforPost" value='1' />
 
     <div class="mb-3 mt-3">
         <label for="file" class="form-label">Ảnh</label>

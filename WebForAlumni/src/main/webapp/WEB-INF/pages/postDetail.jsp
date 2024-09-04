@@ -16,14 +16,14 @@
         ${errMsg}
     </div>
 </c:if>
-<f:form action="${action}" method="post" enctype="multipart/form-data"  modelAttribute="post">
+<f:form action="${action}" method="post" enctype="multipart/form-data"  modelAttribute="post" >
     <h1>${ex}</h1>
     <div class="mb-3 mt-3">
-        <label for="topic" class="form-label">Topic</label>
-        <f:select  class="form-select" path="topicId" id="topicId" name="topicId">
+        <label for="topicidforPost" class="form-label">Topic</label>
+        <f:select  class="form-select" path="topicidforPost" id="topicidforPost" name="topicidforPost">
             <c:forEach items="${topic}" var="t">
                 <c:choose>
-                    <c:when test="${t.id == post.topicId.id}">
+                    <c:when test="${t.id == post.topicidforPost.id}">
                         <option value="${t.id}" selected>${t.name}</option>
                     </c:when>
                     <c:otherwise>
@@ -40,19 +40,21 @@
         <f:input path="content" type="text" class="form-control" id="content" placeholder="${post.content}" name="content" />
     </div>
 
-    <div class="mb-3">
-        <f:input path="createdDate" type="date" class="form-control" id="createdDate" placeholder="${post.createdDate}" name="createdDate" />
-    </div>
+   
 
     <div class="mb-3">
         <c:forEach items="${user}" var="u">
-            <c:if test="${u.id==post.userId.id}" >
-                <f:input path="userId" type="text" class="form-control" id="userId" value="${u.id}" name="userId" />
+            <c:if test="${u.id==post.useridforPost.id}" >
+                <f:input path="useridforPost" type="text" class="form-control" id="useridforPost" value="${u.id}" name="useridforPost" />
             </c:if>
         </c:forEach>
 
     </div>
-
+    
+    <div class="mb-3">
+        <label class="form-check-label" >Số lượt yêu thích &#129505; của bài đăng</label>
+        <input readonly="true"value="${like}"> </input>
+    </div>
 
     <div class="form-check">
         <f:radiobutton class="form-check-input" id="active" name="active" path="active" value="true" checked="checked" />
@@ -63,14 +65,17 @@
         <label class="form-check-label" for="active">&#128274;</label>
     </div>
 
-
+    <div class="mb-3">
+        <label for="createdDate">Start date:</label>
+        <input type="date" id="createdDate" name="createdDate" value="2024-09-02" />
+    </div>
 
     <div class="mb-3 mt-3">
-        <label for="majorId" class="form-label">Ngành để tìm bài viết</label>
-        <f:select  class="form-select" path="majorId" id="majorId" name="majorId">
+        <label for="majoridforPost" class="form-label">Ngành để tìm bài viết</label>
+        <f:select  class="form-select" path="majoridforPost" id="majoridforPost" name="majoridforPost">
             <c:forEach items="${major}" var="m">
                 <c:choose>
-                    <c:when test="${m.id == post.majorId.id}">
+                    <c:when test="${m.id == post.majoridforPost.id}">
                         <option value="${m.id}" selected>${m.name}</option>
                     </c:when>
                     <c:otherwise>
@@ -85,9 +90,9 @@
 
 
     <f:hidden path="image" />
+    <f:hidden path="createdDate" />
 
-
-
+<f:hidden path="useridforPost" id="useridforPost" name="useridforPost" />
 
     <div class="mb-3 mt-3">
         <label for="file" class="form-label">Ảnh</label>

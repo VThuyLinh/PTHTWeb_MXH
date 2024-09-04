@@ -50,8 +50,8 @@
     </div>
 
     <div class="mb-3 mt-3">
-        <label for="file" class="form-label">Ảnh bìa</label>
-        <f:input path="file" type="file" accept=".jpg,.png" class="form-control" id="file" name="file" />
+        <label for="files" class="form-label">Ảnh bìa</label>
+        <f:input path="files" type="file" accept=".jpg,.png" class="form-control" id="files" name="files" />
         <c:if test="${user.cover != null}">
             <img class="mt-1" src="${user.cover}" alt="${user.cover}" width="120" />
         </c:if>
@@ -59,68 +59,50 @@
     </div>
 
 
-    <div class="mb-3 mt-3" >
-        <label for="year" class="form-label">Niên khóa</label>
-        <f:input class="form-control" path="year" id="year" name="year" type="number" min="1990" max="2024" step="1" value="${user.year}"/>
-    </div>
-    <div class="mb-3 mt-3" >
-        <label for="studentId" class="form-label">MSSV</label>
-        <f:input class="form-control" path="studentId" id="studentId" name="studentId" maxlength="10" value="${user.studentId}"/>
-    </div>
+    <c:choose>
+        <c:when test="${user.role=='ROLE_STUDENT'}">
+            <div class="mb-3 mt-3" >
+                <label for="studentId" class="form-label">MSSV</label>
+                <f:input class="form-control" path="studentId" id="studentId" name="studentId" maxlength="10" value="${user.studentId}"/>
+            </div>
+             <f:hidden path="degree" />
+        </c:when>    
+        <c:otherwise>
+            <div class="mb-3 mt-3" >
+                <label for="degree" class="form-label">Degree</label>
+                <f:input class="form-control" path="degree" id="degree" name="degree" maxlength="10" value="${user.degree}"/>
+            </div> 
+            <f:hidden path="MSSV" />
+        </c:otherwise>
+    </c:choose>
+
+
+
 
     
-   <div class="mb-3 mt-3">
-        <label class="form-label">Khoa </label>
-        <f:select class="form-select" path="department" >
-            <c:forEach items="${department}" var="d">
-                <c:choose>
-                    <c:when test="${d.id == user.department.id}">
-                        <option value="${d.id}" selected>${d.name}</option>
-                    </c:when>
-                    <c:otherwise>
-                        <option value="${d.id}">${d.name}</option>
-                    </c:otherwise>
-                </c:choose>
-                
-            </c:forEach>
-        </f:select>
-    </div>
-    
-    
-    
-    <div class="mb-3 mt-3">
-        <label class="form-label">Ngành </label>
-        <f:select class="form-select" path="major" >
-            <c:forEach items="${major}" var="m">
-                <c:choose>
-                    <c:when test="${m.id == user.major.id}">
-                        <option value="${m.id}" selected>${m.name}</option>
-                    </c:when>
-                    <c:otherwise>
-                        <option value="${m.id}">${m.name}</option>
-                    </c:otherwise>
-                </c:choose>
-                
-            </c:forEach>
-        </f:select>
-    </div>
-    
-    
-    
-    
 
-    
+
+
+
+
+
+
+
+        <div class="mb-3">
+        <label for="createdDate" class="form-label">Ngày sửa lại hồ sơ</label>
+        <f:input path="createdDate" type="date" class="form-control" id="createdDate" placeholder="${post.createdDate}" name="createdDate" />
+    </div>
+
+
     <f:hidden path="id" />
 
 
-    
+
     <f:hidden path="avatar" />
     <f:hidden path="cover" />
     <f:hidden path="role" />
-    <div class="mb-3">
-        <label for="year" class="form-label">Ngày sửa lại hồ sơ</label>
-         <f:input path="createdDate" type="date" class="form-control" id="createdDate" placeholder="${post.createdDate}" name="createdDate" />
-    </div>
+    <f:hidden path="password" />
+    
     <div class="form-check">
         <f:radiobutton class="form-check-input" id="active" name="active" path="active" value="true" checked="checked" />
         <label style="font-size:50px" class="form-check-label" for="active">&#128275;</label>
@@ -128,11 +110,11 @@
     <div class="form-check">
         <f:radiobutton class="form-check-input" id="active" name="active" path="active" value="false"/>
         <label style="font-size:50px" class="form-check-label" for="active">&#128274;</label>
-        </div>
+    </div>
 
 
 
-    
+
     <button type="submit" class="btn btn-primary">C?p nh?t</button>
 
 </f:form>

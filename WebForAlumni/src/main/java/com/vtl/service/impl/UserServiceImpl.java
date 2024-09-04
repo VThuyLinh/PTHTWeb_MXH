@@ -68,20 +68,31 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addUser(Map<String, String> params, MultipartFile avatar) {
+    public User addUser(Map<String, String> params, MultipartFile avatar, MultipartFile cover) {
         User u = new User();
-        u.setFirstname(params.get("firstName"));
-        u.setLastname(params.get("lastName"));
-        u.setPhone(params.getOrDefault("phone", "0792366301"));
-        u.setEmail(params.getOrDefault("email", "vthuylinh135@gmail.com"));
-        u.setUsername(params.get("username"));
+        u.setFirstname(params.getOrDefault("firstname",""));
+        u.setLastname(params.getOrDefault("lastname",""));
+        u.setPhone(params.getOrDefault("phone",""));
+        u.setEmail(params.getOrDefault("email",""));
+        u.setUsername(params.getOrDefault("username",""));
         u.setPassword(this.passEncoder.encode(params.get("password")));
         u.setRole("ROLE_STUDENT");
+        u.setDegree(params.getOrDefault("degree", ""));
+        u.setStudentId(params.getOrDefault("studentId", ""));
         if (!avatar.isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(avatar.getBytes(), 
                         ObjectUtils.asMap("resource_type", "auto"));
                 u.setAvatar(res.get("secure_url").toString());
+            } catch (IOException ex) {
+                Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+           if (!cover.isEmpty()) {
+            try {
+                Map res = this.cloudinary.uploader().upload(cover.getBytes(), 
+                        ObjectUtils.asMap("resource_type", "auto"));
+                u.setCover(res.get("secure_url").toString());
             } catch (IOException ex) {
                 Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -115,12 +126,31 @@ public class UserServiceImpl implements UserService {
                             ObjectUtils.asMap("resource_type", "auto"));
                 
                 u.setAvatar(res.get("secure_url").toString());
-                u.setCover(res.get("secure_url").toString());
+               
             } catch (IOException ex) {
                 Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        if (!u.getFiles().isEmpty()) {
+            try {
+                Map res = this.cloudinary.uploader().upload(u.getFiles().getBytes(),
+                            ObjectUtils.asMap("resource_type", "auto"));
+                  u.setCover(res.get("secure_url").toString());
+                
+               
+            } catch (IOException ex) {
+                Logger.getLogger(UserServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+       
        this.userRepo.updateUser(u);
     }
+
+    @Override
+    public User getUserByUsernames(String username) {
+        return this.userRepo.getUserByUsernames(username);
+    }
+
+   
 
 }

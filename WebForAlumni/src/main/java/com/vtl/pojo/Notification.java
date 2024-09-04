@@ -4,7 +4,6 @@
  */
 package com.vtl.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -15,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -23,26 +23,24 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 import org.springframework.web.multipart.MultipartFile;
+
 
 /**
  *
- * @author Thuy Linh
+ * @author tlinh
  */
 @Entity
 @Table(name = "notification")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Notification.findAll", query = "SELECT n FROM Notification n"),
     @NamedQuery(name = "Notification.findById", query = "SELECT n FROM Notification n WHERE n.id = :id"),
-    @NamedQuery(name = "Notification.findByContent", query = "SELECT n FROM Notification n WHERE n.content = :content"),
     @NamedQuery(name = "Notification.findByAddress", query = "SELECT n FROM Notification n WHERE n.address = :address"),
     @NamedQuery(name = "Notification.findByTime", query = "SELECT n FROM Notification n WHERE n.time = :time"),
-    @NamedQuery(name = "Notification.findByActive", query = "SELECT n FROM Notification n WHERE n.active = :active"),
     @NamedQuery(name = "Notification.findByCreatedDate", query = "SELECT n FROM Notification n WHERE n.createdDate = :createdDate"),
-    @NamedQuery(name = "Notification.findByCover", query = "SELECT n FROM Notification n WHERE n.cover = :cover")})
+    @NamedQuery(name = "Notification.findByImage", query = "SELECT n FROM Notification n WHERE n.image = :image"),
+    @NamedQuery(name = "Notification.findByActive", query = "SELECT n FROM Notification n WHERE n.active = :active"),
+    @NamedQuery(name = "Notification.findByDay", query = "SELECT n FROM Notification n WHERE n.day = :day")})
 public class Notification implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,40 +51,44 @@ public class Notification implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 8000)
+    @Lob
+    @Size(min = 1, max = 65535)
     @Column(name = "content")
     private String content;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(min = 1, max = 45)
     @Column(name = "address")
     private String address;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 45)
     @Column(name = "time")
     private String time;
-    @Column(name = "active")
-    private Boolean active;
-    @Size(max = 100)
+    @Size(max = 45)
     @Column(name = "created_date")
     private String createdDate;
-    @Size(max = 500)
-    @Column(name = "cover")
-    private String cover;
-    @JoinColumn(name = "user_id_invite", referencedColumnName = "id")
+    @Basic(optional = false)
+    @NotNull
+    @Size( max = 1000)
+    @Column(name = "image")
+    private String image;
+    @Column(name = "active")
+    private Boolean active;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "day")
+    private String day;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    @JsonIgnore
-    private User userIdInvite;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "noId")
-    @JsonIgnore
+    private User userId;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "notificationId")
     private Set<TeamNotification> teamNotificationSet;
-    
-    
-    
+
     @Transient
     private MultipartFile file;
-
+    
     public Notification() {
     }
 
@@ -94,11 +96,12 @@ public class Notification implements Serializable {
         this.id = id;
     }
 
-    public Notification(Integer id, String content, String address, String time) {
+    public Notification(Integer id, String content, String address, String time, String day) {
         this.id = id;
         this.content = content;
         this.address = address;
         this.time = time;
+        this.day = day;
     }
 
     public Integer getId() {
@@ -133,14 +136,6 @@ public class Notification implements Serializable {
         this.time = time;
     }
 
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
     public String getCreatedDate() {
         return createdDate;
     }
@@ -149,23 +144,38 @@ public class Notification implements Serializable {
         this.createdDate = createdDate;
     }
 
-    public String getCover() {
-        return cover;
+    public String getImage() {
+        return image;
     }
 
-    public void setCover(String cover) {
-        this.cover = cover;
+    public void setImage(String image) {
+        this.image = image;
     }
 
-    public User getUserIdInvite() {
-        return userIdInvite;
+    public Boolean getActive() {
+        return active;
     }
 
-    public void setUserIdInvite(User userIdInvite) {
-        this.userIdInvite = userIdInvite;
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
-    @XmlTransient
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+
+    public User getUserId() {
+        return userId;
+    }
+
+    public void setUserId(User userId) {
+        this.userId = userId;
+    }
+
     public Set<TeamNotification> getTeamNotificationSet() {
         return teamNotificationSet;
     }
@@ -198,8 +208,6 @@ public class Notification implements Serializable {
     public String toString() {
         return "com.vtl.pojo.Notification[ id=" + id + " ]";
     }
-    
-    
     /**
      * @return the file
      */
@@ -213,5 +221,6 @@ public class Notification implements Serializable {
     public void setFile(MultipartFile file) {
         this.file = file;
     }
+    
     
 }

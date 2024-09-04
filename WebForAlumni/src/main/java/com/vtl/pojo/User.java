@@ -6,6 +6,7 @@ package com.vtl.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -14,26 +15,24 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
- * @author Thuy Linh
+ * @author tlinh
  */
 @Entity
 @Table(name = "user")
-@XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "User.findAll", query = "SELECT u FROM User u"),
     @NamedQuery(name = "User.findById", query = "SELECT u FROM User u WHERE u.id = :id"),
@@ -43,14 +42,12 @@ import org.springframework.web.multipart.MultipartFile;
     @NamedQuery(name = "User.findByLastname", query = "SELECT u FROM User u WHERE u.lastname = :lastname"),
     @NamedQuery(name = "User.findByPhone", query = "SELECT u FROM User u WHERE u.phone = :phone"),
     @NamedQuery(name = "User.findByEmail", query = "SELECT u FROM User u WHERE u.email = :email"),
-    @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u WHERE u.role = :role"),
     @NamedQuery(name = "User.findByAvatar", query = "SELECT u FROM User u WHERE u.avatar = :avatar"),
-    @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active"),
-    @NamedQuery(name = "User.findByYear", query = "SELECT u FROM User u WHERE u.year = :year"),
-    @NamedQuery(name = "User.findByStudentId", query = "SELECT u FROM User u WHERE u.studentId = :studentId"),
     @NamedQuery(name = "User.findByCover", query = "SELECT u FROM User u WHERE u.cover = :cover"),
+    @NamedQuery(name = "User.findByStudentId", query = "SELECT u FROM User u WHERE u.studentId = :studentId"),
     @NamedQuery(name = "User.findByDegree", query = "SELECT u FROM User u WHERE u.degree = :degree"),
-    @NamedQuery(name = "User.findByCreatedDate", query = "SELECT u FROM User u WHERE u.createdDate = :createdDate")})
+    @NamedQuery(name = "User.findByRole", query = "SELECT u FROM User u WHERE u.role = :role"),
+    @NamedQuery(name = "User.findByActive", query = "SELECT u FROM User u WHERE u.active = :active")})
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -59,26 +56,30 @@ public class User implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Integer id;
-    @Size(max = 10)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "username")
     private String username;
-    @Size(max = 500)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 1200)
     @Column(name = "password")
     private String password;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 45)
     @Column(name = "firstname")
     private String firstname;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 20)
+    @Size(min = 1, max = 45)
     @Column(name = "lastname")
     private String lastname;
     // @Pattern(regexp="^\\(?(\\d{3})\\)?[- ]?(\\d{3})[- ]?(\\d{4})$", message="Invalid phone/fax format, should be as xxx-xxx-xxxx")//if the field contains phone or fax number consider using this annotation to enforce field validation
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 10)
+    @Size(min = 1, max = 45)
     @Column(name = "phone")
     private String phone;
     // @Pattern(regexp="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message="Invalid email")//if the field contains email address consider using this annotation to enforce field validation
@@ -87,58 +88,61 @@ public class User implements Serializable {
     @Size(min = 1, max = 45)
     @Column(name = "email")
     private String email;
-    @Size(max = 20)
-    @Column(name = "role")
-    private String role;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 300)
+    @Size(min = 1, max = 1200)
     @Column(name = "avatar")
     private String avatar;
-    @Column(name = "active")
-    private Boolean active;
-    @Size(max = 45)
-    @Column(name = "year")
-    private String year;
-    @Size(max = 10)
-    @Column(name = "student_id")
+    @Basic(optional = false)
+    @NotNull
+    @Size( max = 1200)
+    @Column(name = "cover")
+    private String cover;
+    @Basic(optional = false)
+    @NotNull
+    @Size( max = 45)
+    @Column(name = "studentId")
     private String studentId;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 500)
-    @Column(name = "cover")
-    private String cover;
-    @Size(max = 100)
+    @Size( max = 45)
     @Column(name = "degree")
     private String degree;
-    @Size(max = 100)
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
+    @Column(name = "role")
+    private String role;
+    @Column(name = "active")
+    private Boolean active;
+    @Basic(optional = false)
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name = "created_date")
-    private String createdDate;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userIdInvite")
+    @Temporal(TemporalType.DATE)
+    private Date createdDate;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     @JsonIgnore
     private Set<Notification> notificationSet;
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
+    @JsonIgnore
+    private Set<LikeHaha> likeHahaSet;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "useridforPost")
     @JsonIgnore
     private Set<Post> postSet;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     @JsonIgnore
     private Set<Comment> commentSet;
-    @OneToMany(mappedBy = "userId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userId")
     @JsonIgnore
     private Set<TeamUser> teamUserSet;
-    @JoinColumn(name = "department", referencedColumnName = "id")
-    @ManyToOne
-    @JsonIgnore
-    private Department department;
-    @JoinColumn(name = "major", referencedColumnName = "id")
-    @ManyToOne
-    @JsonIgnore
-    private Major major;
-    
-    
+
     @Transient
     private MultipartFile file;
-
+    
+    @Transient
+    private MultipartFile files;
+    
     public User() {
     }
 
@@ -146,14 +150,20 @@ public class User implements Serializable {
         this.id = id;
     }
 
-    public User(Integer id, String firstname, String lastname, String phone, String email, String avatar, String cover) {
+    public User(Integer id, String username, String password, String firstname, String lastname, String phone, String email, String avatar, String cover, String studentId, String degree, String role, Date createdDate) {
         this.id = id;
+        this.username = username;
+        this.password = password;
         this.firstname = firstname;
         this.lastname = lastname;
         this.phone = phone;
         this.email = email;
         this.avatar = avatar;
         this.cover = cover;
+        this.studentId = studentId;
+        this.degree = degree;
+        this.role = role;
+        this.createdDate = createdDate;
     }
 
     public Integer getId() {
@@ -212,44 +222,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
     public String getAvatar() {
         return avatar;
     }
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
-    public String getYear() {
-        return year;
-    }
-
-    public void setYear(String year) {
-        this.year = year;
-    }
-
-    public String getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
     }
 
     public String getCover() {
@@ -260,6 +238,14 @@ public class User implements Serializable {
         this.cover = cover;
     }
 
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
     public String getDegree() {
         return degree;
     }
@@ -268,15 +254,30 @@ public class User implements Serializable {
         this.degree = degree;
     }
 
-    public String getCreatedDate() {
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+    
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(String createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
-    @XmlTransient
     public Set<Notification> getNotificationSet() {
         return notificationSet;
     }
@@ -285,7 +286,14 @@ public class User implements Serializable {
         this.notificationSet = notificationSet;
     }
 
-    @XmlTransient
+    public Set<LikeHaha> getLikeHahaSet() {
+        return likeHahaSet;
+    }
+
+    public void setLikeHahaSet(Set<LikeHaha> likeHahaSet) {
+        this.likeHahaSet = likeHahaSet;
+    }
+
     public Set<Post> getPostSet() {
         return postSet;
     }
@@ -294,7 +302,6 @@ public class User implements Serializable {
         this.postSet = postSet;
     }
 
-    @XmlTransient
     public Set<Comment> getCommentSet() {
         return commentSet;
     }
@@ -303,29 +310,12 @@ public class User implements Serializable {
         this.commentSet = commentSet;
     }
 
-    @XmlTransient
     public Set<TeamUser> getTeamUserSet() {
         return teamUserSet;
     }
 
     public void setTeamUserSet(Set<TeamUser> teamUserSet) {
         this.teamUserSet = teamUserSet;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
-
-    public Major getMajor() {
-        return major;
-    }
-
-    public void setMajor(Major major) {
-        this.major = major;
     }
 
     @Override
@@ -353,7 +343,6 @@ public class User implements Serializable {
         return "com.vtl.pojo.User[ id=" + id + " ]";
     }
     
-    
     /**
      * @return the file
      */
@@ -366,6 +355,20 @@ public class User implements Serializable {
      */
     public void setFile(MultipartFile file) {
         this.file = file;
+    }
+    
+    /**
+     * @return the files
+     */
+    public MultipartFile getFiles() {
+        return files;
+    }
+
+    /**
+     * @param files the files to set
+     */
+    public void setFiles(MultipartFile files) {
+        this.files = files;
     }
     
 }

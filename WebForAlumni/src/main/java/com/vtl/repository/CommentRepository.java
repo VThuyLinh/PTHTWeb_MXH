@@ -16,5 +16,6 @@ public interface CommentRepository {
     public List<Comment> getComment(Map<String, String> params);
     public void deleteComment(int id);
     public Comment getCommentById(int id);
-    public List<Comment> getListCommentById(int id);
+    public List<Comment> getListCommentByPostId(int postId);
+    public Comment addComment (Comment cmt);
 }

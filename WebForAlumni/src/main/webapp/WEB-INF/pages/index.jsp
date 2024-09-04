@@ -61,8 +61,8 @@
 
                     <th>Mã bài đăng </th>
                     <th>Chủ đề</th>
-                    <th>Nội dung</th>
-                    <th>Ngày đăng</th>
+                    <th >Nội dung</th>
+                    <th style="width:120px">Ngày đăng</th>
                     <th>Người đăng</th>
                     <th></th>
                     <th></th>
@@ -72,7 +72,7 @@
                     <tr id="post${p.id}">
                         <td>${p.id}</td>  
                         <c:forEach items="${topic}" var="t">
-                            <c:if test="${t.id==p.topicId.id}">
+                            <c:if test="${t.id==p.topicidforPost.id}">
                                 <td>${t.name}</td>
                             </c:if>
                         </c:forEach>
@@ -80,7 +80,7 @@
                         <td>${p.createdDate}</td>
                         <c:forEach items="${user}" var="u">
                             <c:choose >
-                                <c:when test="${u.id == p.userId.id}">
+                                <c:when test="${u.id == p.useridforPost.id}">
                                     <td>${u.username}</td>
                                 </c:when>
                             </c:choose>
