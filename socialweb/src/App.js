@@ -16,12 +16,17 @@ import { useReducer } from 'react';
 import AddPost from './component/AddPost';
 import AddComment from './component/AddComment';
 import PostDetail from './component/PostDetail';
+import ChatFireBase from './component/ChatFireBase';
+
+
+
 
 
 
 
 const App = () => {
 
+  
   const [user, dispatch]= useReducer(MyUserReducer, null);
 
   return (
@@ -43,9 +48,12 @@ const App = () => {
                 <Route path='/Comment/:postId' element={<PostDetail />} />
                 <Route path='/LikeHaha/:postId' element={<PostDetail />} />
                 <Route path='/Like/:postId' element={<PostDetail />} />
+                <Route path='/Chat' element={<ChatFireBase/>}  />
+                
               </Routes>
             </Container>
             <Footer />
+            
           </BrowserRouter>
       </MyDispatchContext.Provider>
     </MyUserContext.Provider>

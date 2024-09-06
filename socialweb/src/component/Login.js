@@ -4,8 +4,25 @@ import cookie from "react-cookies";
 import { Navigate } from "react-router";
 import APIs, { authAPIs, endpoints } from "../config/APIs";
 import { MyDispatchContext, MyUserContext } from "../config/context";
-
+import  firebase, { db } from '../firebase/config';
+import { getAuth, onAuthStateChanged, ProviderId, signInWithCustomToken } from "firebase/auth";
+import firebases from 'firebase/compat/app';
+import { addDocument } from "./service";
+// import { addDoc, collection } from "firebase/firestore";
+import { getFirestore, doc, setDoc } from "firebase/firestore";
 const Login = () => {
+    // const auth = getAuth();
+    // signInWithCustomToken(auth, token)
+    //   .then((userCredential) => {
+    //     // Signed in
+    //     const user = userCredential.user;
+    //     // ...
+    //   })
+    //   .catch((error) => {
+    //     const errorCode = error.code;
+    //     const errorMessage = error.message;
+    //     // ...
+    //   });
     const [username, setUsername] = useState();
     const [password, setPassword] = useState();
     const user = useContext(MyUserContext);
@@ -26,12 +43,50 @@ const Login = () => {
 
             let user = await authAPIs().get(endpoints['current-user']);
             console.info(user.data);
+            console.info(user.data.email);
+            console.info(user.data.password);
             cookie.save("user", user.data);
 
             dispatch({
                 "type": "login",
                 "payload": user.data
             });
+
+            const userd= await firebase.auth().signInWithEmailAndPassword(user.data.email,user.data.password)
+            console.info(userd);
+            const additionalUserInfo= await firebase.auth().signInWithEmailAndPassword(user.data.email,user.data.password)
+            console.info(userd);
+            console.info();
+            if(userd)
+            {
+                alert("Login successfully");
+            }
+            // try{
+            //     const docRef= await addDoc(,{
+            //         email: userd.email,
+            //       });
+            //     console.log("Document written with ID: ", docRef.id);}
+            //     catch(e)
+            //     {
+            //         console.error("Error adding document: ",e)
+            //     }
+
+            
+            console.info(user);
+            const docRef = doc(db, "UserInChat", "User" );
+            const data = {
+                firstname: user.data.firstname,
+                lastname: user.data.lastname,
+                avatar: user.data.avatar,
+             };
+             
+             setDoc(docRef, data)
+             .then(() => {
+                 console.log("Document has been added successfully");
+             })
+             .catch(error => {
+                 console.log(error);
+             })
        } 
        catch(ex) {
            console.error(ex);
@@ -57,6 +112,7 @@ const Login = () => {
                 <Button type="submit" variant="success">Đăng nhập</Button>
             </Form.Group>
         </Form>
+        <a href="/Register">Don't have account</a>
     </>);
 }
 

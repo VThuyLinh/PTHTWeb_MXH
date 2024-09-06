@@ -10,19 +10,31 @@ import java.util.Map;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.multipart.MultipartFile;
 
-
 /**
  *
  * @author Thuy Linh
  */
 public interface UserService extends UserDetailsService {
+
     User getUserByUsername(String username);
+
     boolean authUser(String username, String password);
-    User addUser(Map<String, String> params, MultipartFile avatar,MultipartFile cover);
-     public List<User> getInfoAllUser();
-     public User getInfoUserById(int id);
-     public void deleteUser(int id);
-      public void updateUser(User u);
-      public User getUserByUsernames(String username);
-      
+
+    User addUser(Map<String, String> params, MultipartFile avatar, MultipartFile cover);
+
+    public List<User> getInfoAllUser(Map<String, String> params);
+    public List<User> getAllUser();
+
+    public User getInfoUserById(int id);
+
+    public void deleteUser(int id);
+
+    public void updateUser(User u);
+
+    public User getUserByUsernames(String username);
+
+    public List<User> getUserWithRoleStudent();
+
+    public List<User> getUserWithRoleLecturer();
+
 }

@@ -40,7 +40,7 @@ public class HomeController {
     public String index(Model model, @RequestParam Map<String, String> params) {
         model.addAttribute("post", this.ps.getPost(params));
         model.addAttribute("major", this.ms.getMajor());
-        model.addAttribute("user", this.us.getInfoAllUser());
+        model.addAttribute("user", this.us.getInfoAllUser(params));
         model.addAttribute("topic", this.ts.getAllTopic());
         return "home";
     }

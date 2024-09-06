@@ -16,15 +16,10 @@
       <li class="nav-item">
           <a class="nav-link" href="<c:url value="/StatsPost"/>">Thống kê bài đăng trong tháng</a>
       </li>
+      
       <li class="nav-item">
-        <a class="nav-link" href="<c:url value="/StatsYear"/>">Thống kê bài đăng trong năm </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Thống kê theo quý</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Thống kê bài viết của người dùng</a>
-      </li>
+                <a class="nav-link" href="/Stats">Thống kê bài viết của người dùng</a>
+            </li>
     </ul>
   </div>
 

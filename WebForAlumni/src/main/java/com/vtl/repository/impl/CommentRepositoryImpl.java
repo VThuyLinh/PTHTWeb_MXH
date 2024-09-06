@@ -41,7 +41,11 @@ public class CommentRepositoryImpl implements CommentRepository {
     @Override
      public List<Comment> getComment(Map<String, String> params) {
          Session s= this.factory.getObject().getCurrentSession();
-            Query q = s.createQuery("From Comment");
+            CriteriaBuilder b= s.getCriteriaBuilder();
+            CriteriaQuery<Comment> q= b.createQuery(Comment.class);
+            Root <Comment> rC= q.from(Comment.class);
+            q.where(b.equal(rC.get("active"), true));
+            Query query= s.createQuery(q);
             
             
             if (params != null) {
@@ -50,12 +54,12 @@ public class CommentRepositoryImpl implements CommentRepository {
                 int p = Integer.parseInt(page);
                 int start = (p - 1) * PAGE_SIZE;
 
-                q.setFirstResult(start);
-                q.setMaxResults(PAGE_SIZE);
+                query.setFirstResult(start);
+                query.setMaxResults(PAGE_SIZE);
             }
         }
 
-        return q.getResultList();
+        return query.getResultList();
         
         
     }

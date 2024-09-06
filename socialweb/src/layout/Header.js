@@ -50,8 +50,10 @@ const Header = () => {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="me-auto">
-                    <Link className='nav-link' to="/">Trang chủ</Link>
+                    <Link className='nav-link' to="/" style={{width:'100px'}}>Trang chủ</Link>
                     <Nav.Link href="/Post">Bài đăng</Nav.Link>
+                    <Nav.Link href="/Notification">Thông báo</Nav.Link>
+                    <Nav.Link href="/Chat">Nhắn tin</Nav.Link>
                     <NavDropdown title="Tìm bài đăng theo cụm ngành" id="basic-nav-dropdown">
                     {major.map(m => {
                         const url = `/Post/?major=${m.id}`;
@@ -71,7 +73,7 @@ const Header = () => {
                     </>:<>
                     <Link className='nav-link text-success' to={`/Account/${user.id}`}>
                          <Image src={user.avatar} width="25" roundedCircle /> {user.username}!</Link>
-                    <Link to="/login"><Button variant='danger' onClick={() => dispatch({"type": "logout"})}>Đăng xuất</Button></Link> </>
+                    <Link to="/login"><Button variant='danger' style={{marginLeft:'10px', width:'120px', marginRight:'10px'}} onClick={() => dispatch({"type": "logout"})}>Đăng xuất</Button></Link> </>
 }
 
                    

@@ -36,6 +36,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin
 public class ApiUserController {
 
     @Autowired
@@ -75,11 +76,27 @@ public class ApiUserController {
     }
 
     @GetMapping("/Users")
-    public ResponseEntity<List<User>> list() {
-        List<User> user = this.us.getInfoAllUser();
+    public ResponseEntity<List<User>> list(@RequestParam Map<String, String> params) {
+        List<User> user = this.us.getInfoAllUser(params);
 
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
+    
+    
+    @GetMapping("/Student")
+    public ResponseEntity<List<User>> listStudent() {
+        List<User> user = this.us.getUserWithRoleStudent();
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+    
+    @GetMapping("/Lecturer")
+    public ResponseEntity<List<User>> listLecturer() {
+        List<User> user = this.us.getUserWithRoleLecturer();
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+    
     
   
 

@@ -7,6 +7,7 @@ package com.vtl.repository;
 import com.vtl.pojo.Post;
 import com.vtl.pojo.User;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -18,21 +19,27 @@ import java.util.List;
 //    public List<User> getInfoAllUser();
 //    public void addUser(User u) ;
 //    public boolean authUser(String username, String password);
-
 //}
+public interface UserRepository {
 
- public interface UserRepository {
     User getUserByUsername(String username);
+
     boolean authUser(String username, String password);
+
     User addUser(User user);
-    public List<User> getInfoAllUser();
+
+    public List<User> getInfoAllUser(Map<String, String> params);
+     public List<User> getAllUser();
+
     public User getInfoUserById(int id);
-     public void deleteUser(int id);
-      public void updateUser(User u);
-      public User getUserByUsernames(String username);
- }
 
+    public void deleteUser(int id);
 
+    public void updateUser(User u);
 
+    public User getUserByUsernames(String username);
 
+    public List<User> getUserWithRoleStudent();
 
+    public List<User> getUserWithRoleLecturer();
+}

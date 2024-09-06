@@ -37,7 +37,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
      "com.vtl.repository",
      "com.vtl.service",
      "com.vtl.component",
-     "com.vtl.filter"
+     "com.vtl.filter",
+     "com.vtl.mail"
     
 })
 @Order(1)
@@ -74,7 +75,7 @@ public class WebAppContextConfigs implements WebMvcConfigurer {
     @Bean
     public MessageSource messageSource() {
         ResourceBundleMessageSource m = new ResourceBundleMessageSource();
-        m.setBasename("messages");
+        m.setBasename("message");
 
         return m;
     }

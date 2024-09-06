@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import APIs, { endpoints } from "../config/APIs";
 import { Button, Card, Col, Image, Row, Spinner } from "react-bootstrap";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 
 const Post=() =>{
@@ -59,12 +59,14 @@ const Post=() =>{
 
     return (
         <>
+           
+
             {post.map( p=>
                 <Card style={{height:'520px', width:'700px', marginTop:'30px',marginBottom:'30px',borderColor: 'black', marginLeft:'18rem'}}>
                 <Card.Body>
                     <Image src={p.image} style={{height:'350px', width:'650px', marginLeft:'10px'}}/>
                     <Card.Text style={{height:'60px', marginTop:'10px'}}>{p.content}</Card.Text>
-                    <Button style={{marginLeft:'500px', width:'120px', backgroundColor:"#274038", borderColor:"#274038"}} href={`/Post/${p.id}`}>Xem thêm</Button>
+                    <Link style={{marginLeft:'500px', width:'120px', backgroundColor:"#274038", borderColor:"#274038"}} to={`/Post/${p.id}`}>Xem thêm</Link>
                 </Card.Body>
                
              </Card>)}

@@ -1,5 +1,3 @@
-
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
@@ -37,13 +35,12 @@ public class PostRepositoryImpl implements PostRepository {
     private static final int PAGE_SIZE = 6;
 
     @Override
-    public List<Post> getPost(Map<String, String> params) 
-    {
-        Session s= this.factory.getObject().getCurrentSession();
+    public List<Post> getPost(Map<String, String> params) {
+        Session s = this.factory.getObject().getCurrentSession();
         CriteriaBuilder b = s.getCriteriaBuilder();
         CriteriaQuery<Post> q = b.createQuery(Post.class);
-        Root root = q.from(Post.class);
-        q.select(root);
+        Root<Post> root = q.from(Post.class);
+        q.where(b.equal(root.get("active"), true));
 
         if (params != null) {
             List<Predicate> predicates = new ArrayList<>();
@@ -52,10 +49,10 @@ public class PostRepositoryImpl implements PostRepository {
                 Predicate p1 = b.like(root.get("content"), String.format("%%%s%%", kw));
                 predicates.add(p1);
             }
-            
+
             String topic = params.get("topic");
             if (topic != null && !topic.isEmpty()) {
-                Predicate p2 = b.equal(root.get("topicidforPost"),Integer.parseInt(topic));
+                Predicate p2 = b.equal(root.get("topicidforPost"), Integer.parseInt(topic));
                 predicates.add(p2);
             }
 
@@ -73,7 +70,7 @@ public class PostRepositoryImpl implements PostRepository {
 
             String major = params.get("major");
             if (major != null && !major.isEmpty()) {
-                Predicate p5 = b.equal(root.get("majoridforPost"),Integer.parseInt(major));
+                Predicate p5 = b.equal(root.get("majoridforPost"), Integer.parseInt(major));
                 predicates.add(p5);
             }
 
@@ -107,55 +104,50 @@ public class PostRepositoryImpl implements PostRepository {
 
     }
 
-   
-    
     @Override
     public Post getPostById(int id) {
         Session s = this.factory.getObject().getCurrentSession();
-        
+
         return s.get(Post.class, id);
 
     }
-    
+
     @Override
     public void deletePost(int id) {
         Session s = this.factory.getObject().getCurrentSession();
         Post p = this.getPostById(id);
         s.delete(p);
     }
-    
-    
-    @Override
-    public List<Post> getPostActive() 
-    {
-        Session s= this.factory.getObject().getCurrentSession();
-           CriteriaBuilder b= s.getCriteriaBuilder();
-            CriteriaQuery<Post> q= b.createQuery(Post.class);
-            Root <Post> rP= q.from(Post.class);
-            q.where(b.equal(rP.get("active"), true));
-            Query query= s.createQuery(q);
-            return query.getResultList();
-        }
 
-    
     @Override
-    public List<Post> getPostByUserId(int userId) {
-        Session s= this.factory.getObject().getCurrentSession();
-           CriteriaBuilder b= s.getCriteriaBuilder();
-            CriteriaQuery<Post> q= b.createQuery(Post.class);
-            Root <Post> rP= q.from(Post.class);
-            q.where(b.equal(rP.get("useridforPost"), userId));
-            Query query= s.createQuery(q);
-            
-            return query.getResultList();
+    public List<Post> getPostActive() {
+        Session s = this.factory.getObject().getCurrentSession();
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Post> q = b.createQuery(Post.class);
+        Root<Post> rP = q.from(Post.class);
+        q.where(b.equal(rP.get("active"), true));
+        Query query = s.createQuery(q);
+        return query.getResultList();
     }
 
-    
     @Override
-    public Post addPost (Post post) {
+    public List<Post> getPostByUserId(int userId) {
         Session s = this.factory.getObject().getCurrentSession();
-        s.save(post);
+        CriteriaBuilder b = s.getCriteriaBuilder();
+        CriteriaQuery<Post> q = b.createQuery(Post.class);
+        Root<Post> rP = q.from(Post.class);
+        q.where(b.equal(rP.get("useridforPost"), userId));
+        Query query = s.createQuery(q);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public Post addPost(Post post) {
+        Session s = this.factory.getObject().getCurrentSession();
         
+        s.save(post);
+
         return post;
     }
 }

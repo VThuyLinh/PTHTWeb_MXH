@@ -27,6 +27,7 @@ import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -52,12 +53,13 @@ public class Post implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Lob
-    @Size(min = 1, max = 65535)
+    @Size(min = 1, max = 65535, message = "{post.content.errMsg}")
     @Column(name = "content")
     private String content;
     @Basic(optional = false)
     @NotNull
     @Column(name = "created_date")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date createdDate;
     @Size(max = 1000)

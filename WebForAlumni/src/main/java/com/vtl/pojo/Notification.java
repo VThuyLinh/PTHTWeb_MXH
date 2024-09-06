@@ -4,6 +4,7 @@
  */
 package com.vtl.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.Basic;
@@ -84,6 +85,7 @@ public class Notification implements Serializable {
     @ManyToOne(optional = false)
     private User userId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "notificationId")
+    @JsonIgnore
     private Set<TeamNotification> teamNotificationSet;
 
     @Transient

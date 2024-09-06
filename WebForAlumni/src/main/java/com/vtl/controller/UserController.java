@@ -50,7 +50,7 @@ public class UserController {
     @GetMapping("/Users")
     public String getUsers(Model model)
     {
-        model.addAttribute("user", this.us.getInfoAllUser());
+        model.addAttribute("user", this.us.getAllUser());
         return"users";
     }
     

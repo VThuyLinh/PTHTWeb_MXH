@@ -17,7 +17,8 @@ export const endpoints = {
     'comment':(postId) =>`/Comment/${postId}/`,
     'addCMT':(postId) => `/AddComment/${postId}`,
     'like':(postId)=> `/LikeHaha/${postId}`,
-    'likeAll':(postId)=> `/Like/${postId}`
+    'likeAll':(postId)=> `/Like/${postId}`,
+    'user':'/Users'
 
    
 }

@@ -81,12 +81,12 @@ const Notification=() =>{
 
         <Row className="mt-2">
         {notification.map( n=>  <Col className="p-1" key={n.id} md={3} xs={12}>
-            <Card>
-                <Card.Img variant="top" src={n.cover} width="200"/>
+            <Card style={{height:'500px'}}>
+                <Card.Img variant="top" src={n.image} width="200" height="300px"/>
                 <Card.Body>
-                    <Card.Title>{n.content}</Card.Title>
+                    <Card.Title style={{height:"70px"}}>{n.content}</Card.Title>
                     <Card.Text>{n.address}</Card.Text>
-                    <Button variant="primary">Xem thêm</Button>
+                    <Button variant="primary" style={{marginLeft:'150px'}}>Xem chi tiết</Button>
                 </Card.Body>
              </Card>
                         </Col>)}

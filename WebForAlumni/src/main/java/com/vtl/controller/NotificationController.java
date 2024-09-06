@@ -66,7 +66,7 @@ public class NotificationController {
           model.addAttribute("teamNoti", this.tns.getTeam());
           model.addAttribute("teamUser", this.tus.getTeamUser());
 //        model.addAttribute("cmt", this.cs.getListCommentById(id));
-          model.addAttribute("user", this.us.getInfoAllUser());
+          model.addAttribute("user", this.us.getAllUser());
 //           model.addAttribute("group", this.gs.getTeam());
           
         return "noDetail";

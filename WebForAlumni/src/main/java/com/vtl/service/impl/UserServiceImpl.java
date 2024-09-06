@@ -11,6 +11,8 @@ import com.vtl.pojo.User;
 import com.vtl.repository.UserRepository;
 import com.vtl.service.UserService;
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -70,6 +72,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User addUser(Map<String, String> params, MultipartFile avatar, MultipartFile cover) {
         User u = new User();
+         Date now = new Date();
+        Timestamp timestamp = new Timestamp(now.getTime());
         u.setFirstname(params.getOrDefault("firstname",""));
         u.setLastname(params.getOrDefault("lastname",""));
         u.setPhone(params.getOrDefault("phone",""));
@@ -79,6 +83,7 @@ public class UserServiceImpl implements UserService {
         u.setRole("ROLE_STUDENT");
         u.setDegree(params.getOrDefault("degree", ""));
         u.setStudentId(params.getOrDefault("studentId", ""));
+        u.setCreatedDate(timestamp);
         if (!avatar.isEmpty()) {
             try {
                 Map res = this.cloudinary.uploader().upload(avatar.getBytes(), 
@@ -103,9 +108,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> getInfoAllUser() {
-        return this.userRepo.getInfoAllUser();
+    public List<User> getInfoAllUser(Map<String, String> params) {
+        return this.userRepo.getInfoAllUser(params);
     }
+    
+     @Override
+    public List<User> getAllUser() {
+       return this.userRepo.getAllUser();
+    }
+
 
     @Override
     public User getInfoUserById(int id) {
@@ -151,6 +162,17 @@ public class UserServiceImpl implements UserService {
         return this.userRepo.getUserByUsernames(username);
     }
 
+    @Override
+    public List<User> getUserWithRoleStudent() {
+        return this.userRepo.getUserWithRoleStudent();
+    }
+
+    @Override
+    public List<User> getUserWithRoleLecturer() {
+        return this.userRepo.getUserWithRoleLecturer();
+    }
+
+   
    
 
 }

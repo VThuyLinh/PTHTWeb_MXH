@@ -2,7 +2,7 @@ import { useReducer, useRef, useState } from "react";
 import { Alert, Button, Form} from "react-bootstrap";
 import { useNavigate } from "react-router";
 import APIs, { endpoints } from "../config/APIs";
-
+import firebase from '../firebase/config';
 
 const Register = () => {
     const [user, setUser] = useState({});
@@ -31,7 +31,15 @@ const Register = () => {
                     'Content-Type': "multipart/form-data"
                 }
             });
+            console.info(res.data.email);
+            console.info(res.data.password);
+            const userd= await firebase.auth().createUserWithEmailAndPassword(res.data.email,res.data.password)
+            if(userd)
+            {
+                alert("Account Created Succcessfully")
+            }
             console.info(res.data);
+            console.info(res.data.email);
 
             nav("/login");
         }
@@ -70,11 +78,6 @@ const Register = () => {
                     <Form.Label>Ảnh bìa</Form.Label>
                     <Form.Control accept=".png,.jpg" type="file" ref={cover}   />
                 </Form.Group>
-                <h3>Đây là phần đăng ký dành cho sinh viên</h3>
-                <Form.Group className="mb-3" controlId="exampleForm.ControlInput6">
-                    <Form.Label>MSSV</Form.Label>
-                    <Form.Control type="text" placeholder="Nhập MSSV (bỏ qua nếu bạn là giảng viên)" value={user["studentId"]} onChange={e => change(e, "studentId")}  />
-                </Form.Group>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput8">
                     <Form.Label>Tên đăng nhập</Form.Label>
                     <Form.Control type="text" placeholder="Tên đăng nhập..." value={user["username"]} onChange={e => change(e, "username")}   />
@@ -87,6 +90,12 @@ const Register = () => {
                     <Form.Label>Xác nhận mật khẩu</Form.Label>
                     <Form.Control type="password" placeholder="Xác nhận mật khẩu..." value={user["confirm"]} onChange={e => change(e, "confirm")}   />
                 </Form.Group>
+                <h3>Đây là phần đăng ký dành cho sinh viên</h3>
+                <Form.Group className="mb-3" controlId="exampleForm.ControlInput6">
+                    <Form.Label>MSSV</Form.Label>
+                    <Form.Control type="text" placeholder="Nhập MSSV (bỏ qua nếu bạn là giảng viên)" value={user["studentId"]} onChange={e => change(e, "studentId")}  />
+                </Form.Group>
+                
                 <h3>Đây là phần đăng ký dành cho giảng viên</h3>
                 <Form.Group className="mb-3" controlId="exampleForm.ControlInput7">
                     <Form.Label>Học vị</Form.Label>
@@ -94,7 +103,7 @@ const Register = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea11">
-                    <Button type="submit" variant="success">Đăng ký</Button>
+                    <Button  type="submit" variant="success">Đăng ký</Button>
                 </Form.Group>
             </Form>
         </>

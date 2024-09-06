@@ -33,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin
+
 public class ApiPostController {
     
     @Autowired
@@ -43,10 +44,13 @@ public class ApiPostController {
     
     @DeleteMapping("/Post/{postId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public void delete(@PathVariable(value="postId") int id)
     {
         this.ps.deletePost(id);
     }
+    
+    
     
     
     

@@ -5,7 +5,7 @@ import cookie from "react-cookies";
 import { Link, useParams } from "react-router-dom";
 import { Timeline, TimelineConnector, TimelineContent, TimelineDot, TimelineItem, TimelineOppositeContent, TimelineSeparator } from '@mui/lab';
 import { Typography } from "@mui/material";
-
+import Timestamp from "react-timestamp";
 
 
 
@@ -13,6 +13,7 @@ const Account = () => {
     const [postU, setPostU]=useState([]);
     const { userId } = useParams();
     const [user, setUser] = useState(cookie.load("user") || null)
+  
     const loadPostByUserId=async ()=>{
       
         try{
@@ -21,6 +22,7 @@ const Account = () => {
             let res= await APIs.get(url);
             console.info(res.data);
             setPostU(res.data);
+           
            
         
         }catch(ex){
@@ -73,7 +75,7 @@ const Account = () => {
                     <TimelineConnector />
                     </TimelineSeparator>
                     
-                    <TimelineContent style={{width:'80px'}}>{p.createdDate}</TimelineContent>
+                    <TimelineContent style={{width:'80px'}}><Timestamp relative date={`${p.createdDate}`} options={{ includeDay: true, twentyFourHour:false}}/></TimelineContent>
                     <Typography>
                             <Card key={p.id} style={{height:'470px', marginTop:'30px',marginBottom:'30px',borderColor: 'black', width:'800px', marginLeft:'8rem'}}>
                                 <Card.Img variant="top" src={p.image} style={{height:'300px', width:'44rem', marginTop:'20px', marginLeft:'30px'}}/>

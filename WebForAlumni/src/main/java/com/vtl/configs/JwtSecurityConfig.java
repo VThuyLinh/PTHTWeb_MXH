@@ -28,10 +28,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableWebSecurity
 @EnableTransactionManagement
 @ComponentScan(basePackages = {
-    "com.dht.controller",
-    "com.dht.repository",
-    "com.dht.service",
-    "com.dht.component"})
+    "com.vtl.controller",
+    "com.vtl.repository",
+    "com.vtl.service",
+    "com.vtl.component",
+    "com.vtl.mail"})
 @Order(1)
 public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -73,6 +74,7 @@ public class JwtSecurityConfig extends WebSecurityConfigurerAdapter {
           http.authorizeRequests().antMatchers("/api/AddComment/**").permitAll();
            http.authorizeRequests().antMatchers("/api/LikeHaha/**").permitAll();
            http.authorizeRequests().antMatchers("/api/Like/**").permitAll();
+            http.authorizeRequests().antMatchers("/api/Users/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_STUDENT')");
         http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/**/Comment/").permitAll();
         http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()

@@ -60,7 +60,7 @@ public class PostController {
         model.addAttribute("major", this.ms.getMajor());
         model.addAttribute("cmt", this.cs.getListCommentByPostId(id));
         model.addAttribute("like", this.ls.getCountLikeonPost(id));
-        model.addAttribute("user", this.us.getInfoAllUser());
+        model.addAttribute("user", this.us.getAllUser());
         model.addAttribute("topic", this.ts.getAllTopic());
         return "post";
     }
@@ -88,7 +88,7 @@ public class PostController {
         model.addAttribute("addPost", p);
         model.addAttribute("topic", this.ts.getAllTopic());
         model.addAttribute("major", this.ms.getMajor());
-        model.addAttribute("user", this.us.getInfoAllUser());
+        model.addAttribute("user", this.us.getAllUser());
 
         return "addPost";
     }

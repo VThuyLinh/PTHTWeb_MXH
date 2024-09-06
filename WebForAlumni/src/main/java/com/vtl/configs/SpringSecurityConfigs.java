@@ -33,7 +33,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
     "com.vtl.controller",
     "com.vtl.repository",
     "com.vtl.service",
-    "com.vtl.component"
+    "com.vtl.component",
+    "com.vtl.mail"
 })
 @Order(2)
 public class SpringSecurityConfigs extends WebSecurityConfigurerAdapter {
